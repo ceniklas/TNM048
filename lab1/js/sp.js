@@ -41,9 +41,6 @@ function sp(){
         //define the domain of the scatter plot axes
         //...
 		
-		
-		
-		console.log(d3.max(data, function(d) { return d["Life satisfaction"]; }));
 		//var d = d3.select(this).data()[1];
 		x.domain([0, d3.max(data, function(d) { return d["Life satisfaction"]; })]);
 		y.domain([0, d3.max(data, function(d) { return d["Household income"]; })]);
@@ -113,7 +110,8 @@ function sp(){
                 //...   
             })
             .on("click",  function(d) {
-                //...    
+                d3.select("#sp").selectAll(".dot").attr("fill", function(d2) { return d2["Country"] == d["Country"] ? "#f00006" : null; } );
+                selFeature(d["Country"]);   
             });
 			
 			
@@ -126,7 +124,7 @@ function sp(){
     
     //method for selecting features of other components
     function selFeature(value){
-        //...
+        pc1.selectLine(value);
     }
 
 }

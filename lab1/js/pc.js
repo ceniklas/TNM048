@@ -105,23 +105,34 @@ function pc(){
 
     // Handles a brush event, toggling the display of foreground lines.
     function brush() {
+
+        var lines = [];
+
         var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
             extents = actives.map(function(p) { return y[p].brush.extent(); });
         foreground.style("display", function(d) {
 
             if( actives.every(function(p, i) { return extents[i][0] <= d[p] && d[p] <= extents[i][1]; }) ){
-                selFeature( function(d){ return d.properties.name; } ); //HUR FÅR MAN RÄTT VÄRDE HÄR?
+                lines.push( d["Country"] );
                 return null;
             }else{
                 return "none";
             }
 
         });
+
+        //console.log(lines);
+        selFeature(lines);
+
     }
 
     //method for selecting the pololyne from other components	
     this.selectLine = function(value){
-        //...
+        
+        //Färga en linje... HOW?! 
+        
+        //foreground.style("display", value);
+        //d3.select("#pc").selectAll(".dot").attr("fill", function(d) { return d["Country"] == value ? "#f00006" : null; } );
     };
     
     //method for selecting features of other components
