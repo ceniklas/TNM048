@@ -34,8 +34,6 @@ function pc(){
     d3.csv("data/OECD-better-life-index-hi.csv", function(data) {
 
         self.data = data;
-		
-		console.log(height);
 
         // Extract the list of dimensions and create a scale for each.
         //...
@@ -110,9 +108,14 @@ function pc(){
         var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
             extents = actives.map(function(p) { return y[p].brush.extent(); });
         foreground.style("display", function(d) {
-            return actives.every(function(p, i) {
-                return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-            }) ? null : "none";
+
+            if( actives.every(function(p, i) { return extents[i][0] <= d[p] && d[p] <= extents[i][1]; }) ){
+                selFeature( function(d){ return d.properties.name; } ); //HUR FÅR MAN RÄTT VÄRDE HÄR?
+                return null;
+            }else{
+                return "none";
+            }
+
         });
     }
 
@@ -122,8 +125,8 @@ function pc(){
     };
     
     //method for selecting features of other components
-    function selFeature(value){
-        //...
+    function selFeature (value){
+        sp1.selectDot(value);
     };
 
 }

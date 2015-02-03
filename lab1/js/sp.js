@@ -121,7 +121,7 @@ function sp(){
 
     //method for selecting the dot from other components
     this.selectDot = function(value){
-        //...
+        d3.select("#sp").selectAll(".dot").attr("fill", function(d) { return d["Country"] == value ? "#f00006" : null; } );
     };
     
     //method for selecting features of other components

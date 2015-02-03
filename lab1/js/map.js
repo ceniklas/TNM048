@@ -71,7 +71,7 @@ function map(){
             })
             //selection
             .on("click",  function(d) {
-                //...
+                selFeature(d.properties.name);
             });
 
     }
@@ -90,7 +90,7 @@ function map(){
     
     //method for selecting features of other components
     function selFeature(value){
-        //...
+        sp1.selectDot(value);
     }
 }
 
