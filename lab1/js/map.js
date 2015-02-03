@@ -12,7 +12,7 @@ function map(){
 
     //initialize color scale
     //...
-    
+     var colorscale = d3.scale.category20();
     //initialize tooltip
     //...
 
@@ -46,9 +46,13 @@ function map(){
         var country = g.selectAll(".country").data(countries);
 
         //initialize a color country object	
-        var cc = {};
+        var cc = {
+			country: country,
+			color: colorscale
+		};
 		
         //...
+		//var colors = d3.scale.category20();
 
         country.enter().insert("path")
             .attr("class", "country")
@@ -57,6 +61,7 @@ function map(){
             .attr("title", function(d) { return d.properties.name; })
             //country color
             //...
+			.style("fill", function(d){return colorscale(d.properties.name)})
             //tooltip
             .on("mousemove", function(d) {
                 //...

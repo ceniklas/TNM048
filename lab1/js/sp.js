@@ -38,18 +38,15 @@ function sp(){
     d3.csv("data/OECD-better-life-index-hi.csv", function(error, data) {
         self.data = data;
         
-        // console.log(data["5"]);
-
-            
-        // Country "Czech Republic" Employment rate "82" Household income "30190" Life satisfaction "75" Personal earnings "09" 
-        // Quality of support network "23141" Self-reported health "72" Student skills "89" Unemployment rate "1" Voter turnout "86" Water Quality "540"
-
-        // for(var i=0; i<5; i++){
-        //     console.log(data[i]["Country"]);
-        // }
-
         //define the domain of the scatter plot axes
         //...
+		
+		
+		
+		console.log(d3.max(data, function(d) { return d["Life satisfaction"]; }));
+		//var d = d3.select(this).data()[1];
+		x.domain([0, d3.max(data, function(d) { return d["Life satisfaction"]; })]);
+		y.domain([0, d3.max(data, function(d) { return d["Household income"]; })]);
         
         draw();
 
@@ -66,18 +63,31 @@ function sp(){
             .append("text")
             .attr("class", "label")
             .attr("x", width)
-            .attr("y", -6);
+            .attr("y", -6); 	
             
         // Add y axis and title.
-        svg.append("g") 
+        svg.append("g")
             .attr("class", "y axis")
             .call(yAxis)
-            .append("text")
+            .append("text")	
             .attr("class", "label")
             .attr("transform", "rotate(-90)")
             .attr("y", 6)
             .attr("dy", ".71em");
-            
+		
+		svg.append("text")      // text label for the x axis
+        .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom) + ")")
+        .style("text-anchor", "middle")
+        .text("Life Satisfaction");
+			
+		svg.append("text")      // text label for the y axis
+		.attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left +50)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Household income");
+		
         // Add the scatter dots.
         svg.selectAll(".dot")
             .data(self.data)
@@ -85,6 +95,16 @@ function sp(){
             .attr("class", "dot")
             //Define the x and y coordinate data values for the dots
             //...
+			
+			
+			.attr("cx", function(d) {
+				return x(d["Life satisfaction"]);
+			})
+			.attr("cy", function(d) {
+				return y(d["Household income"]);
+			})
+			.attr("r", 5)
+			
             //tooltip
             .on("mousemove", function(d) {
                 //...    
@@ -95,6 +115,8 @@ function sp(){
             .on("click",  function(d) {
                 //...    
             });
+			
+			
     }
 
     //method for selecting the dot from other components
