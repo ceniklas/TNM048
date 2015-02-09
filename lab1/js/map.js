@@ -12,7 +12,7 @@ function map(){
 
     //initialize color scale
     //...
-     var colorscale = d3.scale.category20();
+    var colorscale = d3.scale.category20();
     //initialize tooltip
     //...
 
@@ -46,10 +46,10 @@ function map(){
         var country = g.selectAll(".country").data(countries);
 
         //initialize a color country object	
-        var cc = {
-			country: country,
-			color: colorscale
-		};
+        //var cc = {
+            //country: country,
+            //color: colorscale
+        //};
 		
         //...
 		//var colors = d3.scale.category20();
@@ -90,7 +90,10 @@ function map(){
     
     //method for selecting features of other components
     function selFeature(value){
-        sp1.selectDot(value);
+        var lines = [];
+        lines.push( value );
+        sp1.selectDot(lines);
+        pc1.selectLine(value);
     }
 }
 
