@@ -131,8 +131,8 @@ function pc(){
         
         //Färga en linje... HOW?! 
         
-        //foreground.style("display", value);
-        //d3.select("#pc").selectAll(".dot").attr("fill", function(d) { return d["Country"] == value ? "#f00006" : null; } );
+        foreground.style("stroke", value);
+        d3.select("#pc").selectAll(".dot").attr("fill", function(d) { return d["Country"] == value ? "#f00006" : null; } );
     };
     
     //method for selecting features of other components
