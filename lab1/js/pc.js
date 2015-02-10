@@ -10,10 +10,10 @@ function pc(){
 
     
     //initialize color scale
-    //...
+    var colorscale = d3.scale.category20();
     
     //initialize tooltip
-    //...
+    var tooltip = d3.select("body").append("div").attr("class", "tooltip");//.style("opacity", 0.3);
 
     var x = d3.scale.ordinal().rangePoints([0, width], 1),
         y = {};
@@ -69,8 +69,18 @@ function pc(){
 			.data(self.data)
 			.enter().append("path")
 			.attr("d", path)
-            .on("mousemove", function(){})
-            .on("mouseout", function(){});
+            .style("stroke", function(d){return colorscale(d["Country"]);})
+            .on("mousemove", function(d){
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);    
+                tooltip.html(d["Country"])
+                   .style("left", (d3.event.pageX) + "px")
+                   .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(){
+                tooltip.transition().style("opacity", 0);
+            });
 
         // Add a group element for each dimension.
         var g = svg.selectAll(".dimension")
@@ -128,11 +138,9 @@ function pc(){
 
     //method for selecting the pololyne from other components	
     this.selectLine = function(value){
-        
-        //Färga en linje... HOW?! 
-        
-        foreground.style("stroke", value);
-        d3.select("#pc").selectAll(".dot").attr("fill", function(d) { return d["Country"] == value ? "#f00006" : null; } );
+
+        foreground.style("display", function(d) { return d["Country"] == value ? null : "none"; });
+
     };
     
     //method for selecting features of other components

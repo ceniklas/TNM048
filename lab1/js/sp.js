@@ -9,10 +9,10 @@ function sp(){
         height = spDiv.height() - margin.top - margin.bottom;
 
     //initialize color scale
-    //...
+    var colorscale = d3.scale.category20();
     
     //initialize tooltip
-    //...
+    var tooltip = d3.select("body").append("div").attr("class", "tooltip");//.style("opacity", 0.3);
 
     var x = d3.scale.linear()
         .range([0, width]);
@@ -90,6 +90,10 @@ function sp(){
             .data(self.data)
             .enter().append("circle")
             .attr("class", "dot")
+
+            //color?
+            .style("fill", function(d){return colorscale(d["Country"]);})
+
             //Define the x and y coordinate data values for the dots
             //...
 			
@@ -104,13 +108,18 @@ function sp(){
 			
             //tooltip
             .on("mousemove", function(d) {
-                //...    
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);    
+                tooltip.html(d["Country"])
+                   .style("left", (d3.event.pageX) + "px")
+                   .style("top", (d3.event.pageY - 28) + "px");
             })
             .on("mouseout", function(d) {
-                //...   
+                tooltip.transition().style("opacity", 0);
             })
             .on("click",  function(d) {
-                d3.select("#sp").selectAll(".dot").attr("fill", function(d2) { return d2["Country"] == d["Country"] ? "#f00006" : null; } );
+                sp1.selectDot(d["Country"]);
                 selFeature(d["Country"]);   
             });
 			
@@ -119,7 +128,7 @@ function sp(){
 
     //method for selecting the dot from other components
     this.selectDot = function(value){
-        d3.select("#sp").selectAll(".dot").attr("fill", function(d) { return d["Country"] == value ? "#f00006" : null; } );
+        d3.select("#sp").selectAll(".dot").data(self.data).attr("opacity", "0.3").style("stroke","none").filter(function(d){ return value.indexOf(d["Country"]) != -1; }).attr("opacity", "1.0").style("stroke","red");
     };
     
     //method for selecting features of other components
