@@ -11,11 +11,12 @@
 		
         for(i = 0; i<k; i++){
 			
-			var temp = Math.random();
+			var temp = Math.floor(Math.random()*data.length());
 			
 			centroids[i] = data[temp];
 		}
         
     };
+	
     
     
