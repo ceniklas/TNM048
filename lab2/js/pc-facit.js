@@ -24,7 +24,7 @@ function pc(){
         .attr("transform", "translate(" + margin[3] + "," + margin[0] + ")");
 
     
-    d3.csv("data/testData1_400x3_2-clusters.csv", function(data) {
+    d3.csv("data/testData2_5600x5_x-clusters.csv", function(data) {
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
             return (y[d] = d3.scale.linear()
@@ -39,17 +39,58 @@ function pc(){
         
         self.data = data;
         
-        var k = 0;
+        var k = 4;
         var kmeansRes = kmeans(data,k);
+        //console.log( kmeansRes);
         
-        //initialize the cluster colors
-        //...
-        
-        draw(kmeansRes);
+		//initialize the cluster colors
+        //Color code the clusters, based on number of clusters
+		
+		var color = ['rgb(255,255,153)','rgb(127,201,127)','rgb(190,174,212)','rgb(253,192,134)','rgb(22,115,143)','rgb(156,15,30)'];
+		/*var colorArray = new Array(k);
+		var color = d3.scale.category20b();
+		for(var i=0; i<k; i++)
+		{
+			//assign color to resp cluster
+			//store color in array
+			
+			colorArray[i] =  color(i+Math.floor(Math.random()*20)); //+Math.floor(Math.random()*20)
+			//console.log("Color = " + color(i));
+		}
+		//console.log("colorArray length 1 " + colorArray.length );
+		
+		var ccArray = new Array(kmeansRes.length);
+		//console.log("ccArray length 1 " +ccArray.length);
+		
+		for(var j=0; j<(kmeansRes.length); j++)
+		{
+			//console.log("inne i forloop 1 med length kmeansres");
+			for(var i=0; i<k; i++)
+			{
+				//console.log("inne i forloop 2 med length k");
+				if(kmeansRes[j] == i )
+				{
+					//console.log("inne i if-satsen woop");
+					ccArray[j] = colorArray[i];
+				}
+			}
+		}*/
+		
+		//all lengths
+		//console.log("kmeansRes length 2 " + kmeansRes.length);
+		//console.log("colorArray length 2 " + colorArray.length );
+		//console.log("ccArray length 2 " +ccArray.length);
+		
+		
+		//console.log("kmeansRes colors " + kmeansRes);
+		
+        draw(kmeansRes,color);
     });
 
-    function draw(kmeansRes){
+    function draw(kmeansRes,color){
         
+		//console.log("ccArray length 3 " + ccArray.length);
+		//console.log("ccArray colors  " +ccArray);
         // Add grey background lines for context.
         background = svg.append("svg:g")
             .attr("class", "background")
@@ -65,12 +106,15 @@ function pc(){
             .data(self.data)
             .enter().append("svg:path")
             .attr("d", path)
-            .style("stroke", function(d) { return "hsl(" + Math.random() * 360 + ",100%,50%)"; }); 
-    
+            .style("stroke", function(d,i) {  
             //Assign the cluster colors
-            //..
-    
-
+					//console.log("Nu är vi inne i smeteeeen");
+					
+					//console.log("Data " + i +" " + d);
+					return color[kmeansRes[i]];//ccArray[i];
+					
+			});
+			/*  */
         // Add a group element for each dimension.
         var g = svg.selectAll(".dimension")
             .data(dimensions)
