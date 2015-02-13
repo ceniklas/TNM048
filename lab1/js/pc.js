@@ -138,7 +138,7 @@ function pc(){
 
     //method for selecting the pololyne from other components	
     this.selectLine = function(value){
-
+	
         foreground.style("display", function(d) { return d["Country"] == value ? null : "none"; });
 
     };
