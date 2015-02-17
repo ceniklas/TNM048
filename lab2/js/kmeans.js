@@ -57,10 +57,6 @@
 		}
 
 			
-			//3.
-			//When all objects have been assigned, recalculate the positions of the K
-			//centroids to be in the
-			//centre of the cluster. This is achieved by calculating the average values in all dimensions.
 			
 		})
 		
@@ -69,13 +65,10 @@
 		//3. 
 		//When all objects have been assigned, recalculate the positions of the K centroids to be in the
 		//centre of the cluster. This is achieved by calculating the average values in all dimensions
-		data.forEach(function(d, index){
-
-
-
-
-		});
-
+		
+		
+		
+		
 		console.log("DONE");
 
 
