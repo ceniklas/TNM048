@@ -27,11 +27,12 @@
 		//Assign each item to the cluster that has the closest centroid. There are several ways of calculating
 		//distances and in this lab we will use the Euclidean distance
 		var minDistanceArray = new Array(data.length);
-		var minDistanceArray = new Array(data.length);
-		var distance = [];
+		var closestCentroid = new Array(data.length);
+		closestCentroid.fill(Infinity);
+		
 		data.forEach(function(d, index){
 			
-			
+			var distance = [];	
 
 			for(i = 0; i<k; i++){
 				distance[k] =
@@ -48,16 +49,10 @@
 				
 				distance[k] = Math.sqrt(distance[k]);
 			
-
-			for(j=0; j<distance.length; j++){
-				if(j == 0){
-					minDistanceArray[i] = distance[k];
-				}
-				else if(distance[k] < minDistanceArray[i]){
-					minDistanceArray[i] = distance[k];
-				}
-				
-					
+				for(j=0; j<distance.length; j++){
+					if(distance[k] < closestCentroid[i]){
+						closestCentroid[i] = distance[k];
+					}
 			}
 		}
 
