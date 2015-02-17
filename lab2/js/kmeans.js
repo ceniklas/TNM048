@@ -48,9 +48,13 @@
 				}
 				
 				distance[k] = Math.sqrt(distance[k]);
-			
-				for(j=0; j<distance.length - 1; j++){
-					if(distance[k] < closestCentroid[index]){
+				
+				for(j=0; j<distance.length; j++){
+					if(j == 0){
+						closestCentroid[index] = k;
+						minDistanceArray[index] = distance[k];
+					}
+					else if(distance[k] < minDistanceArray[index]){
 						closestCentroid[index] = k;
 						minDistanceArray[index] = distance[k];
 					}
@@ -70,7 +74,7 @@
 			var z = 0;
 			
 			data.forEach(function(d, index){
-				console.log(closestCentroid[index]);
+				//console.log(closestCentroid[index]);
 				if(closestCentroid[index] == clusterIndex){
 					clusterCounter++;
 					console.log("X " + x + " Y " + y + " Z " + z);
