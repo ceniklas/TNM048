@@ -53,12 +53,9 @@
 					if(distance[k] < closestCentroid[i]){
 						closestCentroid[i] = distance[k];
 					}
+				}
 			}
-		}
-
-			
-			
-		})
+		});
 		
 		
 
