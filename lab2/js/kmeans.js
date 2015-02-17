@@ -49,22 +49,43 @@
 				
 				distance[k] = Math.sqrt(distance[k]);
 			
-				for(j=0; j<distance.length; j++){
-					if(distance[k] < closestCentroid[i]){
-						closestCentroid[i] = distance[k];
+				for(j=0; j<distance.length - 1; j++){
+					if(distance[k] < closestCentroid[index]){
+						closestCentroid[index] = k;
+						minDistanceArray[index] = distance[k];
 					}
+				}
 			}
-		}
-
-			
-			
-		})
+		});
 		
 		
-
+		console.log(closestCentroid);
 		//3. 
 		//When all objects have been assigned, recalculate the positions of the K centroids to be in the
 		//centre of the cluster. This is achieved by calculating the average values in all dimensions
+		for(clusterIndex = 0; clusterIndex<k; clusterIndex++){
+			clusterCounter= 0;
+			var x = 0;
+			var y = 0;
+			var z = 0;
+			
+			data.forEach(function(d, index){
+				console.log(closestCentroid[index]);
+				if(closestCentroid[index] == clusterIndex){
+					clusterCounter++;
+					console.log("X " + x + " Y " + y + " Z " + z);
+					x+=Number(d['A']) - Number(centroid[clusterIndex]['A']);
+					y+=Number(d['B']) - Number(centroid[clusterIndex]['B']);
+					z+=Number(d['C']) - Number(centroid[clusterIndex]['C']);
+				}	
+				
+			});
+			
+			x/=clusterCounter;
+			y/=clusterCounter;
+			z/=clusterCounter;
+			//console.log("X " + x + "Y " + y + "Z " + z);
+		}
 		
 		
 		
