@@ -49,7 +49,7 @@
 				
 				distance[k] = Math.sqrt(distance[k]);
 			
-				for(j=0; j<distance.length - 1; j++){
+				for(j=0; j<distance.length; j++){
 					if(distance[k] < closestCentroid[index]){
 						closestCentroid[index] = k;
 						minDistanceArray[index] = distance[k];
