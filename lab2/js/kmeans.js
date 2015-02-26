@@ -91,9 +91,13 @@
 				
 			});
 			console.log(clusterCounter);
-			x/=clusterCounter;
-			y/=clusterCounter;
-			z/=clusterCounter;
+			
+			if(clusterCounter != 0){
+				x /= clusterCounter;
+				y /= clusterCounter;
+				z /= clusterCounter;	
+			}
+
 			console.log("X " + x + "Y " + y + "Z " + z);
 		}
 		
