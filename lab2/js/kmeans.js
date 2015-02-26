@@ -23,6 +23,8 @@
 
 		console.log(centroids);
         
+		
+		
 		//2.
 		//Assign each item to the cluster that has the closest centroid. There are several ways of calculating
 		//distances and in this lab we will use the Euclidean distance
@@ -81,7 +83,7 @@
 				//console.log(closestCentroid[index]);
 				if(closestCentroid[index] == clusterIndex){
 					clusterCounter++;
-					console.log("X " + x + " Y " + y + " Z " + z);
+					//console.log("X " + x + " Y " + y + " Z " + z);
 					x+=Number(d['A']) - Number(centroids[clusterIndex]['A']);
 					y+=Number(d['B']) - Number(centroids[clusterIndex]['B']);
 					z+=Number(d['C']) - Number(centroids[clusterIndex]['C']);
