@@ -38,7 +38,7 @@
 			
 
 			for(i = 0; i<k; i++){
-				distance[k] =
+				distance[i] =
 				Math.pow(Number(d['A'])
 				- Number(centroids[i]['A']),2)
 				+ Math.pow(Number(d['B'])
@@ -47,10 +47,10 @@
 				- Number(centroids[i]['C']),2);
 				
 				if(k > 3){
-					distance[k] += Math.pow(Number(d['D'])	- Number(centroids[i]['D']),2) + Math.pow(Number(d['F']) - Number(centroids[i]['F']),2); 
+					distance[i] += Math.pow(Number(d['D'])	- Number(centroids[i]['D']),2) + Math.pow(Number(d['F']) - Number(centroids[i]['F']),2); 
 				}
 				
-				distance[k] = Math.sqrt(distance[k]);
+				distance[i] = Math.sqrt(distance[i]);
 
 				//console.log(centroids.length);
 				for(j=0; j<centroids.length; j++){
@@ -59,7 +59,7 @@
 						minDistanceArray[index] = distance[j];
 						//console.log("If = 0");
 					}
-						if(distance[k] < minDistanceArray[index]){
+					else if(distance[i] < minDistanceArray[index]){
 						console.log("if distance");
 						closestCentroid[index] = j;
 						minDistanceArray[index] = distance[j];
@@ -80,8 +80,8 @@
 			var z = 0;
 			
 			data.forEach(function(d, index){
-				//console.log(closestCentroid[index]);
 				if(closestCentroid[index] == clusterIndex){
+					console.log(closestCentroid[index]);	
 					clusterCounter++;
 					//console.log("X " + x + " Y " + y + " Z " + z);
 					x+=Number(d['A']) - Number(centroids[clusterIndex]['A']);
