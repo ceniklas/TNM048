@@ -62,7 +62,7 @@
 					else if(distance[i] < minDistanceArray[index]){
 						console.log("if distance");
 						closestCentroid[index] = j;
-						minDistanceArray[index] = distance[j];
+						minDistanceArray[index] = distance[i];
 					}
 				}
 			}
@@ -98,7 +98,7 @@
 				z /= clusterCounter;	
 			}
 
-			console.log("X " + x + "Y " + y + "Z " + z);
+			console.log("X: " + x + " Y: " + y + " Z: " + z);
 		}
 		
 		
