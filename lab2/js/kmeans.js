@@ -29,10 +29,11 @@
 		var minDistanceArray = new Array(data.length);
 		var closestCentroid = new Array(data.length);
 		closestCentroid.fill(Infinity);
-		
+		minDistanceArray.fill(Infinity);
 		data.forEach(function(d, index){
 			
-			var distance = [];	
+			var distance = new Array(k);	
+			
 
 			for(i = 0; i<k; i++){
 				distance[k] =
@@ -48,11 +49,18 @@
 				}
 				
 				distance[k] = Math.sqrt(distance[k]);
-			
-				for(j=0; j<distance.length; j++){
-					if(distance[k] < closestCentroid[index]){
-						closestCentroid[index] = k;
-						minDistanceArray[index] = distance[k];
+
+				//console.log(centroids.length);
+				for(j=0; j<centroids.length; j++){
+					if(j == 0){
+						closestCentroid[index] = j;
+						minDistanceArray[index] = distance[j];
+						//console.log("If = 0");
+					}
+						if(distance[k] < minDistanceArray[index]){
+						console.log("if distance");
+						closestCentroid[index] = j;
+						minDistanceArray[index] = distance[j];
 					}
 				}
 			}
@@ -70,21 +78,21 @@
 			var z = 0;
 			
 			data.forEach(function(d, index){
-				console.log(closestCentroid[index]);
+				//console.log(closestCentroid[index]);
 				if(closestCentroid[index] == clusterIndex){
 					clusterCounter++;
 					console.log("X " + x + " Y " + y + " Z " + z);
-					x+=Number(d['A']) - Number(centroid[clusterIndex]['A']);
-					y+=Number(d['B']) - Number(centroid[clusterIndex]['B']);
-					z+=Number(d['C']) - Number(centroid[clusterIndex]['C']);
+					x+=Number(d['A']) - Number(centroids[clusterIndex]['A']);
+					y+=Number(d['B']) - Number(centroids[clusterIndex]['B']);
+					z+=Number(d['C']) - Number(centroids[clusterIndex]['C']);
 				}	
 				
 			});
-			
+			console.log(clusterCounter);
 			x/=clusterCounter;
 			y/=clusterCounter;
 			z/=clusterCounter;
-			//console.log("X " + x + "Y " + y + "Z " + z);
+			console.log("X " + x + "Y " + y + "Z " + z);
 		}
 		
 		
