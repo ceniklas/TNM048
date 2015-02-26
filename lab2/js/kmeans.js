@@ -68,42 +68,65 @@
 		});
 		
 		
-		console.log(closestCentroid);
+		//console.log(closestCentroid);
+		
 		//3. 
 		//When all objects have been assigned, recalculate the positions of the K centroids to be in the
 		//centre of the cluster. This is achieved by calculating the average values in all dimensions
 		for(clusterIndex = 0; clusterIndex<k; clusterIndex++){
 			clusterCounter= 0;
-			var x = 0;
-			var y = 0;
-			var z = 0;
+			var A_offset = 0;
+			var B_offset = 0;
+			var C_offset = 0;
+			var D_offset = 0;
+			var F_offset = 0;
 			
 			data.forEach(function(d, index){
 				if(closestCentroid[index] == clusterIndex){
-					console.log(closestCentroid[index]);	
+					//console.log(closestCentroid[index]);	
 					clusterCounter++;
-					//console.log("X " + x + " Y " + y + " Z " + z);
-					x+=Number(d['A']) - Number(centroids[clusterIndex]['A']);
-					y+=Number(d['B']) - Number(centroids[clusterIndex]['B']);
-					z+=Number(d['C']) - Number(centroids[clusterIndex]['C']);
+					//console.log("X " + A_offset + " Y " + B_offset + " Z " + C_offsetz);
+					A_offset += Number(d['A']) - Number(centroids[clusterIndex]['A']);
+					B_offset += Number(d['B']) - Number(centroids[clusterIndex]['B']);
+					C_offset += Number(d['C']) - Number(centroids[clusterIndex]['C']);
+
+					if(k > 3){
+						D_offset += Number(d['D']) - Number(centroids[clusterIndex]['D']);
+						F_offset += Number(d['F']) - Number(centroids[clusterIndex]['F']);
+					}
 				}	
 				
 			});
 			console.log(clusterCounter);
 			
 			if(clusterCounter != 0){
-				x /= clusterCounter;
-				y /= clusterCounter;
-				z /= clusterCounter;	
+				A_offset /= clusterCounter;
+				B_offset /= clusterCounter;
+				C_offset /= clusterCounter;	
+
+				if(k > 3){
+					D_offset /= clusterCounter;	
+					F_offset /= clusterCounter;
+				}
 			}
 
-			console.log("X: " + x + " Y: " + y + " Z: " + z);
+			console.log("X: " + A_offset + " Y: " + B_offset + " Z: " + C_offset);
+
+			centroids[clusterIndex]["A"] += A_offset;
+			centroids[clusterIndex]["B"] += B_offset;
+			centroids[clusterIndex]["C"] += C_offset;
+
+			if(k > 3){
+				centroids[clusterIndex]["D"] += D_offset;
+				centroids[clusterIndex]["F"] += F_offset;
+			}
 		}
 		
-		
+
 		
 		
 		console.log("DONE");
+		console.log(centroids);
 
 
     };
