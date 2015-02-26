@@ -14,16 +14,12 @@
 		var centroids = new Array(k,3);
 		
         for(i = 0; i<k; i++){
-			
 			var temp = Math.floor(Math.random()*data.length);
-			console.log(data[temp]);
-			
 			centroids[i] = data[temp];
 		}
 
 		console.log(centroids);
-        
-		
+        		
 		
 		//2.
 		//Assign each item to the cluster that has the closest centroid. There are several ways of calculating
@@ -51,21 +47,22 @@
 				}
 				
 				distance[i] = Math.sqrt(distance[i]);
-
-				//console.log(centroids.length);
-				for(j=0; j<centroids.length; j++){
-					if(j == 0){
-						closestCentroid[index] = j;
-						minDistanceArray[index] = distance[j];
-						//console.log("If = 0");
-					}
-					else if(distance[i] < minDistanceArray[index]){
-						console.log("if distance");
-						closestCentroid[index] = j;
-						minDistanceArray[index] = distance[j];
-					}
+			}
+			
+			//console.log(centroids.length);
+			for(j=0; j<centroids.length; j++){
+				if(j == 0){
+					closestCentroid[index] = 0;
+					minDistanceArray[index] = distance[j];
+					//console.log("Assigning first value.");
+				}
+				else if(distance[j] < minDistanceArray[index]){
+					//console.log("Better value found to centroid" + j);
+					closestCentroid[index] = j;
+					minDistanceArray[index] = distance[j];
 				}
 			}
+			
 		});
 		
 		
