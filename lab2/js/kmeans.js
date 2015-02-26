@@ -39,10 +39,10 @@
 			//centre of the cluster. This is achieved by calculating the average values in all dimensions
 			totalMovedOffset = recalculateCentroidPositions();
 			
-		}	
+		}
 
-		console.log("FOR THE HORDE!");
-
+		console.log("I STAND FOR THE LIGHT!");
+		return closestCentroid;
     };
 
 
@@ -126,7 +126,8 @@
 				}	
 				
 			});
-			console.log(clusterCounter);
+			
+			//console.log(clusterCounter);
 			
 			if(clusterCounter != 0){
 				A_offset /= clusterCounter;
@@ -139,7 +140,7 @@
 				}
 			}
 
-			console.log("X: " + A_offset + " Y: " + B_offset + " Z: " + C_offset);
+			//console.log("X: " + A_offset + " Y: " + B_offset + " Z: " + C_offset);
 
 			centroids[clusterIndex]["A"] = parseFloat(centroids[clusterIndex]["A"]) + A_offset;
 			centroids[clusterIndex]["B"] = parseFloat(centroids[clusterIndex]["B"]) + B_offset;
