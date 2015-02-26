@@ -120,6 +120,8 @@
 				centroids[clusterIndex]["D"] = parseFloat(centroids[clusterIndex]["D"] + D_offset);
 				centroids[clusterIndex]["F"] = parseFloat(centroids[clusterIndex]["F"] + F_offset);
 			}
+			
+			console.log("A: " + centroids[clusterIndex]["A"] );
 		}
 		
 
