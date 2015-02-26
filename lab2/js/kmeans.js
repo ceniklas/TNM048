@@ -112,13 +112,13 @@
 
 			console.log("X: " + A_offset + " Y: " + B_offset + " Z: " + C_offset);
 
-			centroids[clusterIndex]["A"] = parseFloat(centroids[clusterIndex]["A"] + A_offset);
-			centroids[clusterIndex]["B"] = parseFloat(centroids[clusterIndex]["B"] + B_offset);
-			centroids[clusterIndex]["C"] = parseFloat(centroids[clusterIndex]["C"] + C_offset);
+			centroids[clusterIndex]["A"] = parseFloat(centroids[clusterIndex]["A"]) + A_offset;
+			centroids[clusterIndex]["B"] = parseFloat(centroids[clusterIndex]["B"]) + B_offset;
+			centroids[clusterIndex]["C"] = parseFloat(centroids[clusterIndex]["C"]) + C_offset;
 
 			if(k > 3){
-				centroids[clusterIndex]["D"] = parseFloat(centroids[clusterIndex]["D"] + D_offset);
-				centroids[clusterIndex]["F"] = parseFloat(centroids[clusterIndex]["F"] + F_offset);
+				centroids[clusterIndex]["D"] = parseFloat(centroids[clusterIndex]["D"]) + D_offset;
+				centroids[clusterIndex]["F"] = parseFloat(centroids[clusterIndex]["F"]) + F_offset;
 			}
 		}
 		
