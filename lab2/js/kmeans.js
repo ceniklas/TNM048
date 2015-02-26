@@ -40,7 +40,9 @@
 
 
     };
-	
+
+
+    //-----------FUNCTIONS----------------
     function calculateEuclidianDistance(){
 
     	closestCentroid.fill(Infinity);
