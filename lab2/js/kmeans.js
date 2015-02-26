@@ -18,26 +18,30 @@
     	minDistanceArray = new Array(dataSet.length);
 		closestCentroid = new Array(dataSet.length);
 		
+		var totalMovedOffset = Infinity;
+		threshold = 0.00000000000001;
 
 		//1.
 		//Randomly place K points into the space represented by the items that are being clustered. These
 		//points represent the initial cluster centroids.
         createRandomCentroids();
         		
-		
-		//2.
-		//Assign each item to the cluster that has the closest centroid. There are several ways of calculating
-		//distances and in this lab we will use the Euclidean distance
-		calculateEuclidianDistance();
-		
-		//console.log(closestCentroid);
-		
-		//3. 
-		//When all objects have been assigned, recalculate the positions of the K centroids to be in the
-		//centre of the cluster. This is achieved by calculating the average values in all dimensions
-		recalculateCentroidPositions();
-		
+		while(totalMovedOffset > threshold){
+			//2.
+			//Assign each item to the cluster that has the closest centroid. There are several ways of calculating
+			//distances and in this lab we will use the Euclidean distance
+			calculateEuclidianDistance();
+			
+			//console.log(closestCentroid);
+			
+			//3. 
+			//When all objects have been assigned, recalculate the positions of the K centroids to be in the
+			//centre of the cluster. This is achieved by calculating the average values in all dimensions
+			totalMovedOffset = recalculateCentroidPositions();
+			
+		}	
 
+		console.log("FOR THE HORDE!");
 
     };
 
@@ -149,6 +153,11 @@
 			console.log("A: " + centroids[clusterIndex]["A"] );
 		}
 		
+		if(numberOfCentroids > 3){
+			return Math.abs(A_offset) + Math.abs(B_offset) + Math.abs(C_offset) + Math.abs(D_offset) + Math.abs(F_offset);
+		}
+
+		return Math.abs(A_offset) + Math.abs(B_offset) + Math.abs(C_offset);
 
 		console.log("DONE");
 		console.log(centroids);
