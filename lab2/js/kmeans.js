@@ -33,34 +33,35 @@
 			var distance = new Array(k);	
 			
 
-			for(i = 0; i<k; i++){
-				distance[i] =
+			for(clusterIndex = 0; clusterIndex<k; clusterIndex++){
+				distance[clusterIndex] =
 				Math.pow(Number(d['A'])
-				- Number(centroids[i]['A']),2)
+				- Number(centroids[clusterIndex]['A']),2)
 				+ Math.pow(Number(d['B'])
-				- Number(centroids[i]['B']),2)
+				- Number(centroids[clusterIndex]['B']),2)
 				+ Math.pow(Number(d['C'])
-				- Number(centroids[i]['C']),2);
+				- Number(centroids[clusterIndex]['C']),2);
 				
 				if(k > 3){
-					distance[i] += Math.pow(Number(d['D'])	- Number(centroids[i]['D']),2) + Math.pow(Number(d['F']) - Number(centroids[i]['F']),2); 
+					distance[clusterIndex] += Math.pow(Number(d['D'])-Number(centroids[clusterIndex]['D']),2) 
+						+ Math.pow(Number(d['F'])-Number(centroids[clusterIndex]['F']),2); 
 				}
 				
-				distance[i] = Math.sqrt(distance[i]);
+				distance[clusterIndex] = Math.sqrt(distance[clusterIndex]);
 
 			}
 			
 			//console.log(centroids.length);
-			for(j=0; j<centroids.length; j++){
-				if(j == 0){
+			for(clusterIndex=0; clusterIndex<centroids.length; clusterIndex++){
+				if(clusterIndex == 0){
 					closestCentroid[index] = 0;
-					minDistanceArray[index] = distance[j];
+					minDistanceArray[index] = distance[clusterIndex];
 					//console.log("Assigning first value.");
 				}
-				else if(distance[j] < minDistanceArray[index]){
-					//console.log("Better value found to centroid" + j);
-					closestCentroid[index] = j;
-					minDistanceArray[index] = distance[j];	
+				else if(distance[clusterIndex] < minDistanceArray[index]){
+					//console.log("Better value found to centroid" + clusterIndex);
+					closestCentroid[index] = clusterIndex;
+					minDistanceArray[index] = distance[clusterIndex];	
 				}
 			}
 			
