@@ -1,3 +1,16 @@
+var dataSet = {};
+
+var map, pie;
 
 
-var map = new map();
+var dataLoaded = function() {
+  map = new map();
+}
+
+loadData(dataSet, dataLoaded);
+
+function loadData(dataSet, callback){
+	
+	var dataLoaded = false;
+
+}

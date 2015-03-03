@@ -1,5 +1,7 @@
 function map(){
 
+	var self = this;
+
     var zoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", move);
 
     var mapDiv = $("#map");
@@ -14,7 +16,7 @@ function map(){
     //initialize tooltip
     //...
 
-    var projection = d3.geo.mercator().center([15, 65 ]).scale(1000);
+    var projection = d3.geo.mercator().center([15, 65]).scale(1000);
 
     var svg = d3.select("#map").append("svg")
         .attr("width", width)
@@ -26,8 +28,8 @@ function map(){
     g = svg.append("g");
 
     // load data and draw the map
-    d3.json("data/swe_mun.json", function(error, world) {
-        var countries = topojson.feature(world, world.objects.swe_mun).features;
+    d3.json("data/swe_mun.json", function(error, sweden) {
+        var countries = topojson.feature(sweden, sweden.objects.swe_mun).features;
 
         //load summary data
         //...
@@ -35,6 +37,28 @@ function map(){
         draw(countries);
         
     });
+	
+		d3.csv("data/Swedish_Population_Statistics.csv", function(data) {
+			
+			self.data = data;
+
+			
+			
+        // Extract the list of dimensions and create a scale for each.
+        //...
+        //x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+            //return d!="Country" && (y[d] = d3.scale.linear().domain(d3.extent(data, function(p){return +p[d];})).range([height, 0]));
+        //}));
+
+        drawDataSet();
+		
+		draw();
+    });
+	
+		function drawDataSet(){
+			
+			console.log(self.data);
+		}
 
     function draw(countries,data)
     {
