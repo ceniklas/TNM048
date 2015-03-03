@@ -1,8 +1,6 @@
 function map(){
 
-    var zoom = d3.behavior.zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", move);
+    var zoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", move);
 
     var mapDiv = $("#map");
 
@@ -16,17 +14,14 @@ function map(){
     //initialize tooltip
     //...
 
-    var projection = d3.geo.mercator()
-        .center([15, 65 ])
-        .scale(1000);
+    var projection = d3.geo.mercator().center([15, 65 ]).scale(1000);
 
     var svg = d3.select("#map").append("svg")
         .attr("width", width)
         .attr("height", height)
         .call(zoom);
 
-    var path = d3.geo.path()
-        .projection(projection);
+    var path = d3.geo.path().projection(projection);
 
     g = svg.append("g");
 
@@ -92,8 +87,6 @@ function map(){
     function selFeature(value){
         var lines = [];
         lines.push( value );
-        sp1.selectDot(lines);
-        pc1.selectLine(value);
     }
 }
 
