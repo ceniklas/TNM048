@@ -6,7 +6,7 @@ function map(){
 
     var mapDiv = $("#map");
 
-    var margin = {top: 20, right: 20, bottom: 20, left: 20},
+    var margin = {top: 20, right: 20, bottom: 20, left: 10},
         width = mapDiv.width() - margin.right - margin.left,
         height = mapDiv.height() - margin.top - margin.bottom;
 
@@ -24,7 +24,7 @@ function map(){
         .call(zoom);
 
     var path = d3.geo.path().projection(projection);
-
+	
     g = svg.append("g");
 
     // load data and draw the map
@@ -41,8 +41,6 @@ function map(){
 		d3.csv("data/Swedish_Population_Statistics.csv", function(data) {
 			
 			self.data = data;
-
-			
 			
         // Extract the list of dimensions and create a scale for each.
         //...
@@ -53,7 +51,7 @@ function map(){
         drawDataSet();
 		
 		draw();
-    });
+		});
 	
 		function drawDataSet(){
 			
@@ -92,19 +90,16 @@ function map(){
             .on("click",  function(d) {
                 selFeature(d.properties.name);
             });
-
     }
-    
+
     //zoom and panning method
     function move() {
 
         var t = d3.event.translate;
         var s = d3.event.scale;
         
-
         zoom.translate(t);
         g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-
     }
     
     //method for selecting features of other components

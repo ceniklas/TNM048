@@ -18,8 +18,7 @@
         <link rel="stylesheet" href="css/main.css">
 
         <!--modules css-->
-        <link rel="stylesheet" href="css/pc.css">
-        <link rel="stylesheet" href="css/sp.css">
+        <!-- <link rel="stylesheet" href="css/chart.css"> -->
         <link rel="stylesheet" href="css/map.css">
 
     </head>
@@ -48,13 +47,21 @@
 
             <!-- Begin page content -->
 
-
             <div class="container">
+                <!-- row of columns -->
 
                 <br><br><br>
-				
-				<div id="map" style="height: 100vh;"></div>
-                   
+				<div class="row">
+					<div class="col-xs-6">
+                        <div id="map" style="height: 95vh;">
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-6">
+                        <div id="chart" style="height: 60vh;">
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -71,7 +78,9 @@
 
         <!--modules js-->
         <script src="js/map.js"></script>
+		<script src="js/chart.js"></script>
         <script src="js/main.js"></script>
+		
 
     </body>
 </html>
