@@ -17,7 +17,7 @@ function map(){
     var svg = d3.select("#map").append("svg").attr("width", width).attr("height", height).call(zoom);
 
     var path = d3.geo.path().projection(projection);
-
+	
     g = svg.append("g");
 
     // load data and draw the map
@@ -51,7 +51,7 @@ function map(){
                 selFeature(d.properties.name);
             });
     }
-    
+
     //zoom and panning method
     function move() {
         var t = d3.event.translate;
@@ -65,5 +65,6 @@ function map(){
     function selFeature(value){
         var lines = [];
         lines.push( value );
+        printFunneyStuff(value);
     }
 }

@@ -1,3 +1,5 @@
+// KOMMUNKODER! - http://skl.se/tjanster/kommunerlandsting/faktakommunerochlandsting/kommunkoder.2052.html
+
 var countryData;
 var dataSet = [];
 var map, pie;
@@ -6,7 +8,7 @@ var dataLoaded = function() {
 	console.log("Data loaded, calling constructors...");
 	
 	map = new map();
-
+	chart = new chart();
 };
 
 loadData(dataSet, dataLoaded);
@@ -26,14 +28,14 @@ function loadData(dataSet, callback){
 	}
 
 	//Do stuff and load data.
-	d3.csv("data/Swedish_Population_Statistics.csv", function(data) {
+	d3.csv("data/Swedish_Population_Statistics_v2.csv", function(data) {
 			
 		for(var i=0; i<data.length; i++){
 			dataSet.push(data[i]);
 		}
 		//dataSet = (data);
 
-		var test1country = (dataSet[9]["region"]).split(" ")[1];
+		var test1country = (dataSet[19]["region"]).split(" ")[1];
 		console.log(test1country);
 
 		console.log(1);
@@ -52,10 +54,10 @@ function loadData(dataSet, callback){
 
 function printFunneyStuff(value){
 	
+	console.log(value);
+	for(var i=0; i<dataSet.length; i++){
 
-	for(var i=0; i<dataSet.length; i+=8){
-
-		if(value == (dataSet[i]["region"]).split(" ")[1]){
+		if(value == (dataSet[i]["region"]).split(" ")[1]){// || (dataSet[i]["region"]).split(" ")[0] == 2523){ //Gällivare = 2523
 			console.log(dataSet[i]);
 		}
 	}
