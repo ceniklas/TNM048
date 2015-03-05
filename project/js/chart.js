@@ -1,29 +1,35 @@
+var color;
+
+var chartDiv;
+
+var margin, width, height;
+
+var r;
+	
 function chart(){
 	/*
 	var w = 300;
 	var h = 300;
 	var r = h/2;*/
-	var color = d3.scale.category20c();
+	color = d3.scale.category20c();
 	
-	var chartDiv = $("#chart");
+	chartDiv = $("#chart");
 	
-	var margin = {top: 40, right: 20, bottom: 40, left: 20},
-        width = chartDiv.width() - margin.right - margin.left,
-        height = chartDiv.height() - margin.top - margin.bottom;
-		
-	var r = height/2;
+	margin = {top: 40, right: 20, bottom: 40, left: 20};
+	width = chartDiv.width() - margin.right - margin.left;
+	height = chartDiv.height() - margin.top - margin.bottom;
+	
+	r = height/2;
 
 	/*var data = [{"label":"Single", "value":80}, 
 				{"label":"Divorced", "value":15}, 
 				{"label":"Widowed", "value":5}];*/
+}
 
-	function drawChart()
-	{
-		
-	}
-				
+function drawTheChart(data){
+	
 	var vis = d3.select('#chart').append("svg:svg")
-		.data([data])
+		.data([data[0]["2000"],data[1]["2000"],data[2]["2000"]])
 		.attr("width", width)
 		.attr("height", height)
 		.append("svg:g")
@@ -35,12 +41,12 @@ function chart(){
 	var arc = d3.svg.arc().outerRadius(r);
 
 	// select paths, use arc generator to draw
-	var arcs = vis.selectAll("g.slice")
+	var arcs = vis.selectAll("g.slice")  //FUNKAR JUST NU INTE!!!
 		.data(pie)
 		.enter()
 		.append("svg:g")
 		.attr("class", "slice");
-		
+	
 	arcs.append("svg:path")
 		.attr("fill", function(d, i){
 			return color(i);
