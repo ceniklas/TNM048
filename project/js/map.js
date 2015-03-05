@@ -66,6 +66,6 @@ function map(){
         var lines = [];
         lines.push( value );
         printFunneyStuff(value);
-		chart.drawChart(getKommunData(value));
+		drawChart(value);
     }
 }

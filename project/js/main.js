@@ -7,8 +7,9 @@ var map, chart;
 var dataLoaded = function() {
 	console.log("Data loaded, calling constructors...");
 	
-	map = new map();
 	chart = new chart();
+	map = new map();
+	
 };
 
 loadData(dataSet, dataLoaded);
@@ -52,8 +53,8 @@ function loadData(dataSet, callback){
     });
 }
 
-function getKommunData(value){
-	return [dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]];
+function drawChart(value){
+	drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
 }
 
 function printFunneyStuff(value){
