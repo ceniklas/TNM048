@@ -71,11 +71,33 @@ function drawChart(value){
 	drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
 }
 
+function totalPopulation(){
+
+	var total = 0;
+	var tjejer = 0;
+	var killar = 0;
+
+	for (var i = 0; i < dataSet.length; i++) {
+		total += parseFloat(dataSet[i][2012]);
+	};
+
+	for (var i = 6; i < dataSet.length; i+=8) {
+		killar += parseFloat(dataSet[i][2012]);
+	};
+
+	for (var i = 7; i < dataSet.length; i+=8) {
+		tjejer += parseFloat(dataSet[i][2012]);
+	};
+
+	return [total, tjejer, killar];
+}
+
+var maxDomain = -Infinity;
+var minDomain = Infinity;
 
 function checkDataIntegrity(){
-	
-	var maxDomain = -Infinity;
-	var minDomain = Infinity;
+
+	//console.log("Total:"+totalPopulation()[0] + " Tjejer:" + totalPopulation()[1] + " Killar:" + totalPopulation()[2]);
 
 	for (var i = 1; i < dataSet.length; i+=8) {
 
@@ -91,7 +113,6 @@ function checkDataIntegrity(){
 	};
 	console.log("MIN="+minDomain);
 	console.log("MAX="+maxDomain);
-	console.log(dataSet[temp]["region"]);
 
 
 	console.log("Checking data integrity...");
