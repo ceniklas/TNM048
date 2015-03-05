@@ -70,11 +70,12 @@ function drawChart(value){
 	//drawTheChart(getKommunData(value));
 	drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
 }
-
-function checkDataIntegrity(){
-	
 	var maxDomain = 0;
 	var minDomain = 6;
+	
+function checkDataIntegrity(){
+	
+
 
 	for (var i = 1; i < dataSet.length; i+=8) {
 
