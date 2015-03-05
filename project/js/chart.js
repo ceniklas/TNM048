@@ -13,10 +13,15 @@ function chart(){
 		
 	var r = height/2;
 
-	var data = [{"label":"Single", "value":80}, 
+	/*var data = [{"label":"Single", "value":80}, 
 				{"label":"Divorced", "value":15}, 
-				{"label":"Widowed", "value":5}];
+				{"label":"Widowed", "value":5}];*/
 
+	function drawChart()
+	{
+		
+	}
+				
 	var vis = d3.select('#chart').append("svg:svg")
 		.data([data])
 		.attr("width", width)

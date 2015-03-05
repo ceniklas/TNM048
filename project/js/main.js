@@ -2,7 +2,7 @@
 
 var countryData;
 var dataSet = [];
-var map, pie;
+var map, chart;
 
 var dataLoaded = function() {
 	console.log("Data loaded, calling constructors...");
@@ -50,6 +50,10 @@ function loadData(dataSet, callback){
         //draw(countries);
         
     });
+}
+
+function getKommunData(value){
+	return dataSet[36];
 }
 
 function printFunneyStuff(value){
