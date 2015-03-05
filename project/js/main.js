@@ -111,9 +111,9 @@ function checkDataIntegrity(){
 			minDomain = number;
 		}
 	};
+
 	console.log("MIN="+minDomain);
 	console.log("MAX="+maxDomain);
-
 
 	console.log("Checking data integrity...");
 	for(var k=0; k<countryData.length; k++){

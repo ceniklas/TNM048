@@ -39,14 +39,12 @@ function map(){
             .attr("d", path)
             .attr("id", function(d) { return d.id; })
             .attr("title", function(d) {return d.properties.name; })
-            //country color
-            //...
-			.style("fill", function(d){ 
-                var kille = parseFloat(getKommunData(d.properties.name)[0][2012]);
-                var tjej = parseFloat(getKommunData(d.properties.name)[1][2012]);
-                var number = (tjej - kille) / (tjej + kille);
-            return colorscale( number ); })   //F컴컴컴컴RG!!!
-			//http://synthesis.sbecker.net/articles/2012/07/16/learning-d3-part-6-scales-colors
+			.style("fill", function(d){
+				var tjej = parseFloat(getKommunData(d.properties.name)[1][2012]);
+				var kille = parseFloat(getKommunData(d.properties.name)[0][2012]);
+				var num = (tjej - kille)/(tjej + kille);
+				return colorscale(num); 
+            }) 
             //tooltip
             .on("mousemove", function(d) {
                 //...
