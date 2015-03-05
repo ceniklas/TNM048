@@ -52,6 +52,10 @@ function loadData(dataSet, callback){
     });
 }
 
+function getKommunData(value){
+	return dataSet[36];
+}
+
 function printFunneyStuff(value){
 	
 	console.log([ dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39] ]);
