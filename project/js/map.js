@@ -10,8 +10,10 @@ function map(){
     var width = mapDiv.width() - margin.right - margin.left;
     var height = mapDiv.height() - margin.top - margin.bottom;
 
-    var colorscale = d3.scale.category20();
-
+    var colorscale = d3.scale.linear()
+	.domain([0, 200000])
+	.range(["white","black"]);
+	
     var projection = d3.geo.mercator().center([30, 65]).scale(1000);
 
     var svg = d3.select("#map").append("svg").attr("width", width).attr("height", height).call(zoom);
@@ -30,15 +32,17 @@ function map(){
     function draw(countries,data)
     {
         var country = g.selectAll(".country").data(countries);
-
+		
+		var counter = 0;
         country.enter().insert("path")
             .attr("class", "country")
             .attr("d", path)
             .attr("id", function(d) { return d.id; })
-            .attr("title", function(d) { return d.properties.name; })
+            .attr("title", function(d) {return d.properties.name; })
             //country color
             //...
-			//.style("fill", function(d){return colorscale(d.properties.name)})   //F컴컴컴컴RG!!!
+			.style("fill", function(d){ return colorscale( getKommunData(d.properties.name)[1][2000] ); })   //F컴컴컴컴RG!!!
+			//http://synthesis.sbecker.net/articles/2012/07/16/learning-d3-part-6-scales-colors
             //tooltip
             .on("mousemove", function(d) {
                 //...
