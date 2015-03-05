@@ -50,7 +50,24 @@ function loadData(dataSet, callback){
     });
 }
 
+function getKommunData(value){
+	for(var i=0; i<dataSet.length; i+=8){
+
+		if(value == dataSet[i]["region"].substr(5)){
+			
+			var kommunData = [];
+
+			for(var j=0; j<8; j++){
+				kommunData.push(dataSet[i+j]);
+			}
+
+			return kommunData;
+		}
+	}	
+}
+
 function drawChart(value){
+	//drawTheChart(getKommunData(value));
 	drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
 }
 
