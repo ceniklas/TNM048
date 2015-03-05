@@ -5,9 +5,11 @@ var dataSet = [];
 var map, chart;
 
 var dataLoaded = function() {
-	console.log("Data loaded, calling constructors...");
-	
+
+	checkDataIntegrity();
+
 	map = new map();
+	console.log("Creating chart");
 	chart = new chart();
 };
 
@@ -20,9 +22,8 @@ function loadData(dataSet, callback){
 
 	var thingLoaded = function() {
 		setsToLoad--;
-		console.log("----",setsToLoad);
 		if(setsToLoad == 0){
-			console.log("Callbacking!");
+			console.log("Data loaded, callbacking!");
 			callback();
 		}
 	}
@@ -33,19 +34,13 @@ function loadData(dataSet, callback){
 		for(var i=0; i<data.length; i++){
 			dataSet.push(data[i]);
 		}
-		//dataSet = (data);
 
-		var test1country = (dataSet[19]["region"]).split(" ")[1];
-		console.log(test1country);
-
-		console.log(1);
         thingLoaded();
     });
 
 	d3.json("data/swe_mun.json", function(error, sweden) {
         countryData = sweden["objects"]["swe_mun"]["geometries"];
 
-        console.log(2);
         thingLoaded();
         //draw(countries);
         
@@ -56,14 +51,40 @@ function getKommunData(value){
 	return [dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]];
 }
 
-function printFunneyStuff(value){
-	
-	for(var i=0; i<dataSet.length; i++){
+function checkDataIntegrity(){
+	console.log("Checking data integrity...");
+	for(var k=0; k<countryData.length; k++){
+		
+		var found = false;
+		for(var i=0; i<dataSet.length; i++){
 
-		if(value == (dataSet[i]["region"]).split(" ")[1]){// || (dataSet[i]["region"]).split(" ")[0] == 2523){ //Gällivare = 2523
-			console.log(dataSet[i]);
+			if(countryData[k].properties.name == dataSet[i]["region"].substr(5)){
+				//console.log("Found." + countryData[k].properties.name + " - " + (dataSet[i]["region"]).split(" ")[1]);
+				found = true;
+				break;
+			}
 		}
+
+		if(!found){
+			console.log("Missing in population statistics: " + countryData[k].properties.name);
+		}
+		
 	}
 
-	//console.log(countryData[value].properties.name);
+	for(var k=0; k<dataSet.length; k++){
+
+		var found=false;
+		for(var i=0; i<countryData.length; i++) {
+			
+			if(countryData[i].properties.name == dataSet[k]["region"].substr(5)){
+				found = true;
+				break;
+			}
+		}
+
+		if(!found){
+			console.log("Missing in map: " + dataSet[k]["region"].substr(5));
+		}
+	}
+	console.log("End of integrity check.");
 }

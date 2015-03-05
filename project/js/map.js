@@ -65,7 +65,7 @@ function map(){
     function selFeature(value){
         var lines = [];
         lines.push( value );
-        printFunneyStuff(value);
+        //printFunneyStuff(value);
 		chart.drawChart(getKommunData(value));
     }
 }
