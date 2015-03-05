@@ -73,21 +73,24 @@ function drawChart(value){
 
 function checkDataIntegrity(){
 	
-	var maxDomain = 0;
-	var minDomain = 6;
+	var maxDomain = -Infinity;
+	var minDomain = Infinity;
 
 	for (var i = 1; i < dataSet.length; i+=8) {
 
-		if(parseFloat(dataSet[i][2012]) / parseFloat(dataSet[i-1][2012]) > maxDomain){
-			maxDomain = parseFloat(dataSet[i][2012]) / parseFloat(dataSet[i-1][2012]);
+		var number = (parseFloat(dataSet[i][2012]) - parseFloat(dataSet[i-1][2012])) / (parseFloat(dataSet[i][2012]) + parseFloat(dataSet[i-1][2012]));
+
+		if(number > maxDomain){
+			maxDomain = number;
 		}
 
-		if(parseFloat(dataSet[i][2012]) / parseFloat(dataSet[i-1][2012]) < minDomain){
-			minDomain = parseFloat(dataSet[i][2012]) / parseFloat(dataSet[i-1][2012]);
+		if(number < minDomain){
+			minDomain = number;
 		}
 	};
 	console.log("MIN="+minDomain);
 	console.log("MAX="+maxDomain);
+	console.log(dataSet[temp]["region"]);
 
 
 	console.log("Checking data integrity...");
