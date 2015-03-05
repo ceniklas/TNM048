@@ -11,8 +11,8 @@ function map(){
     var height = mapDiv.height() - margin.top - margin.bottom;
 
     var colorscale = d3.scale.linear()
-	.domain([0, 200000])
-	.range(["white","black"]);
+	.domain([0, 245145])
+	.range(["grey","black"]);
 	
     var projection = d3.geo.mercator().center([30, 65]).scale(1000);
 
@@ -41,7 +41,7 @@ function map(){
             .attr("title", function(d) {return d.properties.name; })
             //country color
             //...
-			.style("fill", function(d){ return colorscale( getKommunData(d.properties.name)[1][2000] ); })   //F컴컴컴컴RG!!!
+			.style("fill", function(d){ return colorscale( getKommunData(d.properties.name)[1][2012] )	 ; })   //F컴컴컴컴RG!!!
 			//http://synthesis.sbecker.net/articles/2012/07/16/learning-d3-part-6-scales-colors
             //tooltip
             .on("mousemove", function(d) {
