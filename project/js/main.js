@@ -72,6 +72,24 @@ function drawChart(value){
 }
 
 function checkDataIntegrity(){
+	
+	var maxDomain = 0;
+	var minDomain = 6;
+
+	for (var i = 1; i < dataSet.length; i+=8) {
+
+		if(parseFloat(dataSet[i][2012]) / parseFloat(dataSet[i-1][2012]) > maxDomain){
+			maxDomain = parseFloat(dataSet[i][2012]) / parseFloat(dataSet[i-1][2012]);
+		}
+
+		if(parseFloat(dataSet[i][2012]) / parseFloat(dataSet[i-1][2012]) < minDomain){
+			minDomain = parseFloat(dataSet[i][2012]) / parseFloat(dataSet[i-1][2012]);
+		}
+	};
+	console.log("MIN="+minDomain);
+	console.log("MAX="+maxDomain);
+
+
 	console.log("Checking data integrity...");
 	for(var k=0; k<countryData.length; k++){
 		
