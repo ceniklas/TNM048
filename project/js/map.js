@@ -12,7 +12,7 @@ function map(){
 
     var colorscale = d3.scale.category20();
 
-    var projection = d3.geo.mercator().center([15, 65]).scale(1000);
+    var projection = d3.geo.mercator().center([30, 65]).scale(1000);
 
     var svg = d3.select("#map").append("svg").attr("width", width).attr("height", height).call(zoom);
 
@@ -66,6 +66,6 @@ function map(){
         var lines = [];
         lines.push( value );
         //printFunneyStuff(value);
-		chart.drawChart(getKommunData(value));
+		drawChart(getKommunData(value));
     }
 }

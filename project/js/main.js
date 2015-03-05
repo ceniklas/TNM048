@@ -3,14 +3,19 @@
 var countryData;
 var dataSet = [];
 var map, chart;
+var magicVariable;
 
 var dataLoaded = function() {
 
 	checkDataIntegrity();
 
+	magicVariable = [dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]];
+
 	map = new map();
 	console.log("Creating chart");
 	chart = new chart();
+
+	
 };
 
 loadData(dataSet, dataLoaded);
