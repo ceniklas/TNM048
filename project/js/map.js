@@ -41,7 +41,14 @@ function map(){
             .attr("title", function(d) {return d.properties.name; })
             //country color
             //...
-			.style("fill", function(d){ return colorscale( getKommunData(d.properties.name)[0][2012]  / getKommunData(d.properties.name)[1][2012] )	 ; })   //F컴컴컴컴RG!!!
+			.style("fill", function(d){
+				var tjej = parseFloat(getKommunData(d.properties.name)[1][2012]);
+				var kille = parseFloat(getKommunData(d.properties.name)[0][2012]);
+				
+				var num = (tjej - kille)/(tjej + kille);
+				
+				
+				return colorscale(num); })   //F컴컴컴컴RG!!!
 			//http://synthesis.sbecker.net/articles/2012/07/16/learning-d3-part-6-scales-colors
             //tooltip
             .on("mousemove", function(d) {

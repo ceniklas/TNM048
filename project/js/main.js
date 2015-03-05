@@ -70,12 +70,11 @@ function drawChart(value){
 	//drawTheChart(getKommunData(value));
 	drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
 }
-
+var maxDomain = -Infinity;
+var minDomain = Infinity;
 
 function checkDataIntegrity(){
 	
-	var maxDomain = -Infinity;
-	var minDomain = Infinity;
 
 	for (var i = 1; i < dataSet.length; i+=8) {
 
@@ -91,7 +90,7 @@ function checkDataIntegrity(){
 	};
 	console.log("MIN="+minDomain);
 	console.log("MAX="+maxDomain);
-	console.log(dataSet[temp]["region"]);
+	
 
 
 	console.log("Checking data integrity...");
