@@ -53,12 +53,11 @@ function loadData(dataSet, callback){
 }
 
 function getKommunData(value){
-	return dataSet[36];
+	return [dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]];
 }
 
 function printFunneyStuff(value){
 	
-	console.log([ dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39] ]);
 	for(var i=0; i<dataSet.length; i++){
 
 		if(value == (dataSet[i]["region"]).split(" ")[1]){// || (dataSet[i]["region"]).split(" ")[0] == 2523){ //Gällivare = 2523
