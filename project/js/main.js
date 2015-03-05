@@ -2,7 +2,7 @@
 
 var countryData;
 var dataSet = [];
-var map, pie;
+var map, chart;
 
 var dataLoaded = function() {
 	console.log("Data loaded, calling constructors...");
@@ -54,7 +54,7 @@ function loadData(dataSet, callback){
 
 function printFunneyStuff(value){
 	
-	console.log(value);
+	console.log([ dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39] ]);
 	for(var i=0; i<dataSet.length; i++){
 
 		if(value == (dataSet[i]["region"]).split(" ")[1]){// || (dataSet[i]["region"]).split(" ")[0] == 2523){ //Gällivare = 2523
