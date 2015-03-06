@@ -30,9 +30,21 @@ function chart(){
 
 function drawTheChart(data2){
 	
+	/*var vis = d3.select('#chart')
+		.append("svg:svg")
+		.data([data])
+		.attr("width", width)
+		.attr("height", height)
+		.append("svg:g")
+		.attr("transform", "translate(" + r + "," + r + ")");*/
+		
+	console.log(data2);
+	console.log(data);
+	
+	//[data2[0]["2000"],data2[1]["2000"],data2[2]["2000"]]
 	var vis = d3.select('#chart')
 		.append("svg:svg")
-		.data([data[0]["2000"],data[1]["2000"],data[2]["2000"]])
+		.data([data2[0]])
 		.attr("width", width)
 		.attr("height", height)
 		.append("svg:g")
