@@ -137,7 +137,10 @@ function createSlider(){
 
 	  handle.attr("cx", x(value));
 	  //d3.select("body").style("background-color", d3.hsl(value, .8, .8));
-	  setColorscale(Math.round(value));
+	  yearSelected = Math.round(value);
+	  if(yearSelected > 1999){
+	  	setColorscale(yearSelected);
+	  }
 	}
 }
 

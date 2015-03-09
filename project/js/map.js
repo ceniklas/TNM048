@@ -1,14 +1,14 @@
-var yearSelected = 2000;
+var yearSelected = 2012;
 var swedenMapData;
 var colorscale;
 
-function setColorscale(year){
+function setColorscale(){
     
     var swe = g.selectAll(".country").data(swedenMapData);
 
     swe.style("fill", function(d){
-        var tjej = parseFloat(getKommunData(d.properties.name)[1][year]);
-        var kille = parseFloat(getKommunData(d.properties.name)[0][year]);
+        var tjej = parseFloat(getKommunData(d.properties.name)[1][yearSelected]);
+        var kille = parseFloat(getKommunData(d.properties.name)[0][yearSelected]);
         var num = (tjej - kille)/(tjej + kille);
         return colorscale(num); 
     });
@@ -26,9 +26,7 @@ function map(){
     var width = mapDiv.width() - margin.right - margin.left;
     var height = mapDiv.height() - margin.top - margin.bottom;
 
-    colorscale = d3.scale.linear()
-	.domain([minDomain, maxDomain])
-	.range(["white","green"]);
+    colorscale = d3.scale.linear().domain([minDomain, maxDomain]).range(["white","green"]);
 	
     var projection = d3.geo.mercator().center([30, 65]).scale(1000);
 
@@ -73,7 +71,7 @@ function map(){
                 selFeature(d.properties.name);
             });
 
-            setColorscale(yearSelected);
+            setColorscale();
     }
 
     //zoom and panning method

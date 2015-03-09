@@ -57,7 +57,7 @@ function drawTheChart(theData){
 	//console.log(data);
 	
 	var pieData1 = [], pieData2 = [];
-	year = "2012";
+	year = yearSelected;
 	var sum1 = 0, sum2 = 0;
 	
 	//select the interesting data at the selected year
