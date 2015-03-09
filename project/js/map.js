@@ -1,3 +1,19 @@
+var yearSelected = 2000;
+var swedenMapData;
+var colorscale;
+
+function setColorscale(year){
+    
+    var swe = g.selectAll(".country").data(swedenMapData);
+
+    swe.style("fill", function(d){
+        var tjej = parseFloat(getKommunData(d.properties.name)[1][year]);
+        var kille = parseFloat(getKommunData(d.properties.name)[0][year]);
+        var num = (tjej - kille)/(tjej + kille);
+        return colorscale(num); 
+    });
+}
+
 function map(){
 
 	//var self = this;
@@ -10,7 +26,7 @@ function map(){
     var width = mapDiv.width() - margin.right - margin.left;
     var height = mapDiv.height() - margin.top - margin.bottom;
 
-    var colorscale = d3.scale.linear()
+    colorscale = d3.scale.linear()
 	.domain([minDomain, maxDomain])
 	.range(["white","green"]);
 	
@@ -24,14 +40,14 @@ function map(){
 
     // load data and draw the map
     d3.json("data/swe_mun.json", function(error, sweden) {
-        var countries = topojson.feature(sweden, sweden.objects.swe_mun).features;
+        swedenMapData = topojson.feature(sweden, sweden.objects.swe_mun).features;
 
-        draw(countries);
+        draw();
     });
 
-    function draw(countries,data)
+    function draw()
     {
-        var country = g.selectAll(".country").data(countries);
+        var country = g.selectAll(".country").data(swedenMapData);
 		
 		var counter = 0;
         country.enter().insert("path")
@@ -39,12 +55,12 @@ function map(){
             .attr("d", path)
             .attr("id", function(d) { return d.id; })
             .attr("title", function(d) {return d.properties.name; })
-			.style("fill", function(d){
-				var tjej = parseFloat(getKommunData(d.properties.name)[1][2012]);
-				var kille = parseFloat(getKommunData(d.properties.name)[0][2012]);
+			/*.style("fill", function(d){
+				var tjej = parseFloat(getKommunData(d.properties.name)[1][yearSelected]);
+				var kille = parseFloat(getKommunData(d.properties.name)[0][yearSelected]);
 				var num = (tjej - kille)/(tjej + kille);
 				return colorscale(num); 
-            }) 
+            })*/ 
             //tooltip
             .on("mousemove", function(d) {
                 //...
@@ -56,6 +72,8 @@ function map(){
             .on("click",  function(d) {
                 selFeature(d.properties.name);
             });
+
+            setColorscale(yearSelected);
     }
 
     //zoom and panning method
