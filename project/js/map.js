@@ -88,8 +88,10 @@ function map(){
         var lines = [];
         lines.push( value );
 
+
+        kommunSelected = value;
         //printFunneyStuff(value);
-		drawChart(value);
+		drawChart();
 
 		//drawChart(getKommunData(value));
 

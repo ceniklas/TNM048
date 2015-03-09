@@ -68,30 +68,27 @@ function getKommunData(value){
 	}	
 }
 
-function drawChart(value){
-	drawTheChart(getKommunData(value));
+function drawChart(){
+	if(kommunSelected != null){
+		drawTheChart(getKommunData(kommunSelected));	
+	}
 	//drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
 }
 
 function createSlider(){
 
-	/*d3.slider().on("slide", function(evt, value) {
-  		d3.select('#slider3text').text(value);
-	});
+	
+	sliderDiv = $("#slider");
 
-	d3.select('#slider3').call(d3.slider().on("slide", function(evt, value) {
-    	d3.select('#slider3text').text(value);
-    }));*/
-
-    var margin = {top: 20, right: 50, bottom: 20, left: 50},
-    width = 750 - margin.left - margin.right,
-    height = 50 - margin.bottom - margin.top;
+    var margin = {top: 20, right: 20, bottom: 20, left: 20};
+    var width = sliderDiv.width() - margin.left - margin.right;
+    var height = sliderDiv.height() - margin.bottom - margin.top;
 
 	var x = d3.scale.linear().domain([2000, 2012]).range([0, width]).clamp(true);
 
 	var brush = d3.svg.brush().x(x).extent([0, 10]).on("brush", brushed);
 
-	var svg = d3.select("body").append("svg")
+	var svg = d3.select("#slider").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g")
@@ -140,6 +137,7 @@ function createSlider(){
 	  yearSelected = Math.round(value);
 	  if(yearSelected > 1999){
 	  	setColorscale(yearSelected);
+	  	drawChart();
 	  }
 	}
 }
