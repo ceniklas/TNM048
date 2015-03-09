@@ -21,6 +21,8 @@ function chart(){
 	width = chartDiv.width() - margin.right - margin.left;
 	height = chartDiv.height() - margin.top - margin.bottom;
 	
+	//width = 300;
+	//height = 300;
 	r = height/2;
 
 	data = [{"label":"Single", "value":80}, 
@@ -38,19 +40,31 @@ function drawTheChart(data2){
 		.append("svg:g")
 		.attr("transform", "translate(" + r + "," + r + ")");*/
 		
-	console.log(data2);
+	console.log([data2]);
 	console.log(data);
 	
-	//[data2[0]["2000"],data2[1]["2000"],data2[2]["2000"]]
+	var pieData = [];
+	var year = "2012";
+	var sum;
+	
+	//select the interesting data at the selected year
+	for(var i = 0; i<data2.length; i+=2){
+		
+		pieData.push({"label":data2[i]["marital status"], "value":parseFloat(data2[i][year])});
+		sum += parseFloat(data2[i][year]);
+	}
+	
+	console.log(pieData);
+	
+	//insert the selected data
 	var vis = d3.select('#chart')
 		.append("svg:svg")
-		.data([data2[0]])
+		.data([pieData])
 		.attr("width", width)
 		.attr("height", height)
 		.append("svg:g")
 		.attr("transform", "translate(" + r + "," + r + ")");
 	
-
 	// declare an arc generator function
 	var arc = d3.svg.arc().outerRadius(r);
 	
@@ -72,56 +86,28 @@ function drawTheChart(data2){
 	// add the text
 	arcs.append("svg:text")
 	.attr("transform", function(d){
-		d.innerRadius = 0;
-		d.outerRadius = r;
+		d.innerRadius = r/1.4;
+		d.outerRadius = r*3;
 		return "translate(" + arc.centroid(d) + ")";})
-	.attr("text-anchor", "middle").text( function(d, i){ return data[i].label; } );
-
-
-	/*
-
-	var width = 960;
-    var height = 500;
-    var radius = Math.min(width, height) / 2;
-
-	var color = d3.scale.ordinal().range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-	var arc = d3.svg.arc()
-	    .outerRadius(radius - 10)
-	    .innerRadius(radius - 70);
-
-	var pie = d3.layout.pie()
-	    .sort(null)
-	    .value(function(d) { return d.population; });
-
-	var svg = d3.select("body").append("svg")
-	    .attr("width", width)
-	    .attr("height", height)
-	  .append("g")
-	    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-	d3.csv("data.csv", function(error, data) {
-
-	  data.forEach(function(d) {
-	    d.population = +d.population;
-	  });
-
-	  var g = svg.selectAll(".arc")
-	      .data(pie(data))
-	    .enter().append("g")
-	      .attr("class", "arc");
-
-	  g.append("path")
-	      .attr("d", arc)
-	      .style("fill", function(d) { return color(d.data.age); });
-
-	  g.append("text")
-	      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-	      .attr("dy", ".35em")
-	      .style("text-anchor", "middle")
-	      .text(function(d) { return d.data.age; });
-
-	});
-
-	*/
+	.attr("text-anchor", "middle").text( function(d, i){ return pieData[i].label; } );
+	
+	// Add a magnitude value to the larger arcs, translated to the arc centroid and rotated.
+    arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      //.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")"; })
+      .attr("transform", function(d) { //set the label's origin to the center of the arc
+        //we have to make sure to set these before calling arc.centroid
+        d.outerRadius = r; // Set Outer Coordinate
+        d.innerRadius = 0; // Set Inner Coordinate
+        return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+      })
+      .style("fill", "White")
+      .style("font", "bold 12px Arial")
+      .text(function(d, i) { return parseFloat(sum / parseFloat(pieData[i].value)); });
+	  
+	  function angle(d) {
+      var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+      return a > 90 ? a - 180 : a;
+    }
 }
