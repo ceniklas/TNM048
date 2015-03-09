@@ -92,9 +92,13 @@ function drawTheChart(theData){
 function updateDataMale(pieData, sum){
 	
 	if(firstTime == false){
+		
 		vis1.remove();
 		//pie1.remove();
 		arcs1.remove();
+		
+		d3.select('#chart').select("svg").remove();
+		//chartDiv.remove();
 	}
 	
 	//insert the selected data
@@ -159,6 +163,7 @@ function updateDataFemale(pieData, sum){
 		vis2.remove();
 		//pie2.remove();
 		arcs2.remove();
+		d3.select('#chart').select("svg").remove();
 	}
 	else{
 		firstTime = false;
