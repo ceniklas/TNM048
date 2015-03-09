@@ -6,6 +6,12 @@ var margin, width, height;
 
 var r;
 
+var vis;
+var pie;
+var arc;
+var arcs;
+var firstTime;
+
 var data;
 var data2;
 
@@ -31,6 +37,8 @@ function chart(){
 	data = [{"label":"Single", "value":80}, 
 				{"label":"Divorced", "value":15}, 
 				{"label":"Widowed", "value":5}];
+				
+	firstTime = true;
 }
 
 function drawTheChart(theData){
@@ -41,7 +49,7 @@ function drawTheChart(theData){
 		.attr("width", width)
 		.attr("height", height)
 		.append("svg:g")
-		.attr("transform", "translate(" + r + "," + r + ")");*/
+		.attr("transform", "translate(" + r + "," + r + ")");*/	
 	
 	data2 = theData;
 	
@@ -67,6 +75,10 @@ function drawTheChart(theData){
 	
 	initiateData(pieData1, sum1);
 	initiateData(pieData2, sum2);
+	
+	if(firstTime == true){
+		firstTime = false;
+	}
 }
 
 function initiateData(pieData, sum){
@@ -75,7 +87,9 @@ function initiateData(pieData, sum){
 	console.log(pieData);
 	
 	//insert the selected data
-	var vis = d3.select('#chart')
+	//vis.exit().remove();
+	
+	vis = d3.select('#chart')
 		.append("svg:svg")
 		.data([pieData])
 		.attr("width", width)
@@ -84,28 +98,37 @@ function initiateData(pieData, sum){
 		.attr("transform", "translate(" + r + "," + r + ")");
 	
 	// declare an arc generator function
-	var arc = d3.svg.arc().outerRadius(r);
+	arc = d3.svg.arc().outerRadius(r);
 	
-	var pie = d3.layout.pie().value(function(d){ return d.value; });
-
-	// select paths, use arc generator to draw
-	var arcs = vis.selectAll("g.slice") 
-		.data(pie)
-		.enter()
-		.append("svg:g")
-		.attr("class", "slice");
-
+	pie = d3.layout.pie().value(function(d){ return d.value; });
+	
+	//if(firstTime == true){ //kanske dåligt sätt att göra detta?..
+		
+		// select paths, use arc generator to draw
+		arcs = vis.selectAll("g.slice") 
+			.data(pie)
+			.enter()
+			.append("svg:g")
+			.attr("class", "slice");
+	/*}
+	else{
+		
+	arcs = vis.selectAll("g.slice") 
+	    .data(pie) // set the new data
+	    .attr("class", "slice");
+	}*/
+	
 	arcs.append("svg:path")
 		.attr("fill", function(d, j){
 			return color(j);
 		})
 		.attr("d", arc);
-
+	
 	// add the text
 	arcs.append("svg:text")
 	.attr("transform", function(d){
 		d.innerRadius = r/1.5;
-		d.outerRadius = r*3;
+		d.outerRadius = r*2;
 		return "translate(" + arc.centroid(d) + ")";})
 	.attr("text-anchor", "middle").text( function(d, j){ return pieData[j].label; } );
 	
@@ -122,7 +145,7 @@ function initiateData(pieData, sum){
       })
       .style("fill", "White")
       .style("font", "bold 12px Arial")
-      .text(function(d, j) { return  Math.floor(100 * (parseFloat(data2[j][year]) / parseFloat(sum))) + "%"; });
+      .text(function(d, j) { return  Math.floor(100 * (parseFloat(d["value"]) / parseFloat(sum))) + "%"; });
 	  
 	  function angle(d) {
       var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
