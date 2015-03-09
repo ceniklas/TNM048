@@ -16,6 +16,8 @@ function chart(){
 	var w = 300;
 	var h = 300;
 	var r = h/2;*/
+
+	console.log("HELLO");
 	color = d3.scale.category20c();
 	
 	chartDiv = $("#chart");

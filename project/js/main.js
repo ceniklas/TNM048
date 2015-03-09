@@ -14,12 +14,13 @@ var dataLoaded = function() {
 
 	map = new map();
 	chart = new chart();
+
+	createSlider()
 };
 
 loadData(dataSet, dataLoaded);
 
 function loadData(dataSet, callback){	
-
 
 	var setsToLoad = 2;
 
@@ -69,6 +70,13 @@ function getKommunData(value){
 function drawChart(value){
 	drawTheChart(getKommunData(value));
 	//drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
+}
+
+function createSlider(){
+
+	d3.slider().on("slide", function(evt, value) {
+  		d3.select('#slider3text').text(value);
+	});
 }
 
 function totalPopulation(){
