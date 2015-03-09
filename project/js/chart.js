@@ -3,13 +3,12 @@ var color;
 var chartDiv;
 
 var margin, width, height;
-
 var r;
 
-var vis;
-var pie;
+var vis1, vis2;
+var pie1, pie2;
 var arc;
-var arcs;
+var arcs1, arcs2;
 var firstTime;
 
 var data;
@@ -53,7 +52,7 @@ function drawTheChart(theData){
 	
 	data2 = theData;
 	
-	console.log([data2]);
+	//console.log([data2]);
 	//console.log(data);
 	
 	var pieData1 = [], pieData2 = [];
@@ -73,56 +72,186 @@ function drawTheChart(theData){
 		sum2 += parseFloat(data2[i][year]);
 	}
 	
-	initiateData(pieData1, sum1);
-	initiateData(pieData2, sum2);
+	updateDataMale(pieData1, sum1);
+	updateDataFemale(pieData2, sum2);
 	
-	if(firstTime == true){
+	/*if(firstTime == true){
+		
+		initiateData(pieData1, sum1);
+		initiateData(pieData2, sum2);
+		
 		firstTime = false;
 	}
+	else{
+		
+		updateData(pieData1, sum1);
+		updateData(pieData2, sum2);
+	}*/
 }
 
-function initiateData(pieData, sum){
-
-	console.log(sum);
-	console.log(pieData);
+function updateDataMale(pieData, sum){
+	
+	if(firstTime == false){
+		vis1.remove();
+		//pie1.remove();
+		arcs1.remove();
+	}
 	
 	//insert the selected data
-	//vis.exit().remove();
+	vis1 = d3.select('#chart')
+	.append("svg:svg")
+	.data([pieData])
+	.attr("width", width)
+	.attr("height", height)
+	.append("svg:g")
+	.attr("transform", "translate(" + r + "," + r + ")");
 	
-	vis = d3.select('#chart')
-		.append("svg:svg")
-		.data([pieData])
-		.attr("width", width)
-		.attr("height", height)
+	// declare an arc generator function
+	arc = d3.svg.arc().outerRadius(r);
+	
+	pie1 = d3.layout.pie().value(function(d){ return d.value; });
+	
+	// select paths, use arc generator to draw
+	arcs1 = vis1.selectAll("g.slice")
+		.data(pie1)
+		.enter()
 		.append("svg:g")
-		.attr("transform", "translate(" + r + "," + r + ")");
+		.attr("class", "slice");
 	
+		arcs1.append("svg:path")
+	.attr("fill", function(d, j){
+		return color(j);
+	})
+	.attr("d", arc);
+	
+	// add the text
+	arcs1.append("svg:text")
+	.attr("transform", function(d){
+		d.innerRadius = r/1.5;
+		d.outerRadius = r*2;
+		return "translate(" + arc.centroid(d) + ")";})
+	.attr("text-anchor", "middle").text( function(d, j){ return pieData[j].label; } );
+	
+	// Add a magnitude value to the larger arcs1, translated to the arc centroid and rotated.
+    arcs1.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      //.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")"; })
+      .attr("transform", function(d) { //set the label's origin to the center of the arc
+		//we have to make sure to set these before calling arc.centroid
+		d.outerRadius = r; // Set Outer Coordinate
+		d.innerRadius = 0; // Set Inner Coordinate
+		return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+      })
+      .style("fill", "White")
+      .style("font", "bold 12px Arial")
+      .text(function(d, j) { return  Math.floor(100 * (parseFloat(d["value"]) / parseFloat(sum))) + "%"; });
+	
+	  function angle(d) {
+      var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+      return a > 90 ? a - 180 : a;
+    }
+}
+
+function updateDataFemale(pieData, sum){
+	
+	if(firstTime == false){
+		vis2.remove();
+		//pie2.remove();
+		arcs2.remove();
+	}
+	else{
+		firstTime = false;
+	}
+	
+	//insert the selected data
+	vis2 = d3.select('#chart')
+	.append("svg:svg")
+	.data([pieData])
+	.attr("width", width)
+	.attr("height", height)
+	.append("svg:g")
+	.attr("transform", "translate(" + r + "," + r + ")");
+
+	// declare an arc generator function
+	arc = d3.svg.arc().outerRadius(r);
+	
+	pie2 = d3.layout.pie().value(function(d){ return d.value; });
+	
+	// select paths, use arc generator to draw
+	arcs2 = vis2.selectAll("g.slice")
+		.data(pie2)
+		.enter()
+		.append("svg:g")
+		.attr("class", "slice");
+		
+		arcs2.append("svg:path")
+	.attr("fill", function(d, j){
+		return color(j);
+	})
+	.attr("d", arc);
+	
+	// add the text
+	arcs2.append("svg:text")
+	.attr("transform", function(d){
+		d.innerRadius = r/1.5;
+		d.outerRadius = r*2;
+		return "translate(" + arc.centroid(d) + ")";})
+	.attr("text-anchor", "middle").text( function(d, j){ return pieData[j].label; } );
+	
+	// Add a magnitude value to the larger arcs2, translated to the arc centroid and rotated.
+    arcs2.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      //.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")"; })
+      .attr("transform", function(d) { //set the label's origin to the center of the arc
+		//we have to make sure to set these before calling arc.centroid
+		d.outerRadius = r; // Set Outer Coordinate
+		d.innerRadius = 0; // Set Inner Coordinate
+		return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+      })
+      .style("fill", "White")
+      .style("font", "bold 12px Arial")
+      .text(function(d, j) { return  Math.floor(100 * (parseFloat(d["value"]) / parseFloat(sum))) + "%"; });
+	
+	  function angle(d) {
+      var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+      return a > 90 ? a - 180 : a;
+    }
+}
+
+/*function initiateData(pieData, sum, vis, arcs, pie){
+
+	//console.log(sum);
+	//console.log(pieData);
+	
+	
+	//insert the selected data
+	vis = d3.select('#chart')
+	.append("svg:svg")
+	.data([pieData])
+	.attr("width", width)
+	.attr("height", height)
+	.append("svg:g")
+	.attr("transform", "translate(" + r + "," + r + ")");
+
 	// declare an arc generator function
 	arc = d3.svg.arc().outerRadius(r);
 	
 	pie = d3.layout.pie().value(function(d){ return d.value; });
 	
-	//if(firstTime == true){ //kanske dåligt sätt att göra detta?..
+	// select paths, use arc generator to draw
+	arcs = vis.selectAll("g.slice")
+		.data(pie)
+		.enter()
+		.append("svg:g")
+		.attr("class", "slice");
 		
-		// select paths, use arc generator to draw
-		arcs = vis.selectAll("g.slice") 
-			.data(pie)
-			.enter()
-			.append("svg:g")
-			.attr("class", "slice");
-	/*}
-	else{
-		
-	arcs = vis.selectAll("g.slice") 
-	    .data(pie) // set the new data
-	    .attr("class", "slice");
-	}*/
-	
-	arcs.append("svg:path")
-		.attr("fill", function(d, j){
-			return color(j);
-		})
-		.attr("d", arc);
+		arcs.append("svg:path")
+	.attr("fill", function(d, j){
+		return color(j);
+	})
+	.attr("d", arc);
 	
 	// add the text
 	arcs.append("svg:text")
@@ -146,9 +275,117 @@ function initiateData(pieData, sum){
       .style("fill", "White")
       .style("font", "bold 12px Arial")
       .text(function(d, j) { return  Math.floor(100 * (parseFloat(d["value"]) / parseFloat(sum))) + "%"; });
-	  
+	
 	  function angle(d) {
       var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
       return a > 90 ? a - 180 : a;
     }
+	
+	//arcs.exit().remove();
+	//arcs.text.exit().remove();
 }
+
+function updateData(pieData, sum, vis, arcs, pie){
+
+	//remove all
+	vis.remove();
+	
+		//insert the selected data
+	vis = d3.select('#chart')
+	.append("svg:svg")
+	.data([pieData])
+	.attr("width", width)
+	.attr("height", height)
+	.append("svg:g")
+	.attr("transform", "translate(" + r + "," + r + ")");
+
+	// declare an arc generator function
+	arc = d3.svg.arc().outerRadius(r);
+	
+	pie = d3.layout.pie().value(function(d){ return d.value; });
+	
+	// select paths, use arc generator to draw
+	arcs = vis.selectAll("g.slice")
+		.data(pie)
+		.enter()
+		.append("svg:g")
+		.attr("class", "slice");
+		
+		arcs.append("svg:path")
+	.attr("fill", function(d, j){
+		return color(j);
+	})
+	.attr("d", arc);
+	
+	// add the text
+	arcs.append("svg:text")
+	.attr("transform", function(d){
+		d.innerRadius = r/1.5;
+		d.outerRadius = r*2;
+		return "translate(" + arc.centroid(d) + ")";})
+	.attr("text-anchor", "middle").text( function(d, j){ return pieData[j].label; } );
+	
+	// Add a magnitude value to the larger arcs, translated to the arc centroid and rotated.
+    arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      //.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")"; })
+      .attr("transform", function(d) { //set the label's origin to the center of the arc
+		//we have to make sure to set these before calling arc.centroid
+		d.outerRadius = r; // Set Outer Coordinate
+		d.innerRadius = 0; // Set Inner Coordinate
+		return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+      })
+      .style("fill", "White")
+      .style("font", "bold 12px Arial")
+      .text(function(d, j) { return  Math.floor(100 * (parseFloat(d["value"]) / parseFloat(sum))) + "%"; });
+	
+	  function angle(d) {
+      var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+      return a > 90 ? a - 180 : a;
+    }
+	
+	/*vis.select('#chart')
+		.data([pieData]);
+
+	// declare an arc generator function
+	//arc = d3.svg.arc().outerRadius(r);
+	pie = d3.layout.pie().value(function(d){ return d.value; });
+	
+	arcs.selectAll("g.slice") 
+		.data(pie) // set the new data
+		.attr("class", "slice");
+	
+	// add the text... maybe only updating the data?
+	arcs.append("svg:text")
+	.attr("transform", function(d){
+		d.innerRadius = r/1.5;
+		d.outerRadius = r*2;
+		return "translate(" + arc.centroid(d) + ")";})
+	.attr("text-anchor", "middle").text( function(d, j){ return pieData[j].label; } );
+	
+	// Add a magnitude value to the larger arcs, translated to the arc centroid and rotated.
+    arcs//.filter(function(d) { return d.endAngle - d.startAngle > .2; })
+		.append("svg:text")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      //.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")"; })
+      .attr("transform", function(d) { //set the label's origin to the center of the arc
+		//we have to make sure to set these before calling arc.centroid
+		d.outerRadius = r; // Set Outer Coordinate
+		d.innerRadius = 0; // Set Inner Coordinate
+		return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+      })
+		.style("fill", "White")
+		.style("font", "bold 12px Arial")
+		.text(function(d, j) { return  Math.floor(100 * (parseFloat(d["value"]) / parseFloat(sum))) + "%"; });
+
+		function angle(d) {
+		var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+		return a > 90 ? a - 180 : a;
+    }
+	
+	//arcs.exit().remove();
+	//arcs.text.exit().remove();
+}*/
+
