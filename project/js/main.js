@@ -67,8 +67,8 @@ function getKommunData(value){
 }
 
 function drawChart(value){
-	//drawTheChart(getKommunData(value));
-	drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
+	drawTheChart(getKommunData(value));
+	//drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
 }
 
 function totalPopulation(){
