@@ -26,7 +26,7 @@ function map(){
     var width = mapDiv.width() - margin.right - margin.left;
     var height = mapDiv.height() - margin.top - margin.bottom;
 
-    colorscale = d3.scale.linear().domain([minDomain, maxDomain]).range(["white","green"]);
+    colorscale = d3.scale.linear().domain([minDomain, maxDomain]).range(["white","blue"]);
 	
     var projection = d3.geo.mercator().center([30, 65]).scale(1000);
 
