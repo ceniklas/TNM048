@@ -18,13 +18,7 @@ var data2;
 var kommunSelected;
 	
 function chart(){
-	/*
-	var w = 300;
-	var h = 300;
-	var r = h/2;*/
-
 	color1 = d3.scale.category20c();
-	color2 = d3.scale.category20b();
 	
 	chartDiv = $("#chart");
 	
@@ -45,15 +39,7 @@ function chart(){
 }
 
 function drawTheChart(theData){
-	
-	/*var vis = d3.select('#chart')
-		.append("svg:svg")
-		.data([data])
-		.attr("width", width)
-		.attr("height", height)
-		.append("svg:g")
-		.attr("transform", "translate(" + r + "," + r + ")");*/	
-	
+
 	data2 = theData;
 	
 	//console.log([data2]);
@@ -195,7 +181,7 @@ function updateDataFemale(pieData, sum){
 		
 		arcs2.append("svg:path")
 	.attr("fill", function(d, j){
-		return color2(j);
+		return color1(j+4);
 	})
 	.attr("d", arc);
 	
