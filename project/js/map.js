@@ -56,6 +56,10 @@ function map(){
             .on("click",  function(d) {
                 selFeature(d.properties.name);
             });
+			
+			d3.slider().on("slide", function(evt, value) {
+				d3.select('#slider3text').text(value);
+})
     }
 
     //zoom and panning method
