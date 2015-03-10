@@ -71,10 +71,8 @@ function map(){
                 selFeature(d.properties.name);
             });
 
-			
-			d3.slider().on("slide", function(evt, value) {
-				d3.select('#slider3text').text(value);
-})
+            setColorscale();
+
     }
 
     //zoom and panning method
