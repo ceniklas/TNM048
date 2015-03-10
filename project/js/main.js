@@ -9,17 +9,19 @@ var dataLoaded = function() {
 
 
 	checkDataIntegrity();
+	calculateMinMaxDomain();
 
 	magicVariable = [dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]];
 
 	map = new map();
 	chart = new chart();
+
+	createSlider();
 };
 
 loadData(dataSet, dataLoaded);
 
 function loadData(dataSet, callback){	
-
 
 	var setsToLoad = 2;
 
@@ -66,9 +68,78 @@ function getKommunData(value){
 	}	
 }
 
-function drawChart(value){
-	//drawTheChart(getKommunData(value));
-	drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
+function drawChart(){
+	if(kommunSelected != null){
+		drawTheChart(getKommunData(kommunSelected));	
+	}
+	//drawTheChart([dataSet[32], dataSet[33], dataSet[34], dataSet[35], dataSet[36], dataSet[37], dataSet[38], dataSet[39]]);
+}
+
+function createSlider(){
+
+	
+	sliderDiv = $("#slider");
+
+    var margin = {top: 20, right: 20, bottom: 20, left: 20};
+    var width = sliderDiv.width() - margin.left - margin.right;
+    var height = sliderDiv.height() - margin.bottom - margin.top;
+
+	var x = d3.scale.linear().domain([2000, 2012]).range([0, width]).clamp(true);
+
+	var brush = d3.svg.brush().x(x).extent([0, 10]).on("brush", brushed);
+
+	var svg = d3.select("#slider").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	svg.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + height / 2 + ")")
+		.call(d3.svg.axis()
+		.scale(x)
+		.orient("bottom")
+		.tickFormat(function(d) { return d; })
+		.tickSize(0)
+		.tickPadding(12))
+		.select(".domain")
+		.select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+		.attr("class", "halo");
+
+	var slider = svg.append("g").attr("class", "slider").call(brush);
+
+	slider.selectAll(".extent,.resize").remove();
+
+	slider.select(".background").attr("height", height);
+
+	var handle = slider.append("circle")
+	    .attr("class", "handle")
+	    .attr("transform", "translate(0," + height / 2 + ")")
+	    .attr("r", 9);
+
+	slider.call(brush.event)
+		.transition() // gratuitous intro!
+		.duration(750)
+		.call(brush.extent([70, 70]))
+		.call(brush.event);
+
+	function brushed() {
+	  var value = brush.extent()[0];
+
+	  if (d3.event.sourceEvent) { // not a programmatic event
+	    value = x.invert(d3.mouse(this)[0]);
+	    brush.extent([value, value]);
+	  }
+
+	  handle.attr("cx", x(value));
+	  //d3.select("body").style("background-color", d3.hsl(value, .8, .8));
+	  yearSelected = Math.round(value);
+	  if(yearSelected > 1999){
+	  	setColorscale(yearSelected);
+	  	drawChart();
+	  }
+	}
 }
 
 function totalPopulation(){
@@ -95,13 +166,11 @@ function totalPopulation(){
 var maxDomain = -Infinity;
 var minDomain = Infinity;
 
-function checkDataIntegrity(){
-
-	//console.log("Total:"+totalPopulation()[0] + " Tjejer:" + totalPopulation()[1] + " Killar:" + totalPopulation()[2]);
+function calculateMinMaxDomain(){
 
 	for (var i = 1; i < dataSet.length; i+=8) {
 
-		var number = (parseFloat(dataSet[i][2012]) - parseFloat(dataSet[i-1][2012])) / (parseFloat(dataSet[i][2012]) + parseFloat(dataSet[i-1][2012]));
+		var number = (parseFloat(dataSet[i][yearSelected]) - parseFloat(dataSet[i-1][yearSelected])) / (parseFloat(dataSet[i][yearSelected]) + parseFloat(dataSet[i-1][yearSelected]));
 
 		if(number > maxDomain){
 			maxDomain = number;
@@ -114,6 +183,11 @@ function checkDataIntegrity(){
 
 	console.log("MIN="+minDomain);
 	console.log("MAX="+maxDomain);
+}
+
+function checkDataIntegrity(){
+
+	//console.log("Total:"+totalPopulation()[0] + " Tjejer:" + totalPopulation()[1] + " Killar:" + totalPopulation()[2]);
 
 	console.log("Checking data integrity...");
 	for(var k=0; k<countryData.length; k++){
