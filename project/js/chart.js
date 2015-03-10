@@ -1,10 +1,12 @@
-var color1;
-var color2;
+var color;
 
 var chartDiv;
 
 var margin, width, height;
 var r;
+
+//var arc = d3.svg.arc().outerRadius(r);
+var piechartProperties = d3.layout.pie().value(function(d){ return d.value; });
 
 var vis1, vis2;
 var pie1, pie2;
@@ -12,83 +14,65 @@ var arc;
 var arcs1, arcs2;
 var firstTime;
 
-var data;
-var data2;
-
 var kommunSelected;
 	
 function chart(){
-	color1 = d3.scale.category20c();
+	
+	color = d3.scale.category20c();
 	
 	chartDiv = $("#chart");
 	
 	margin = {top: 20, right: 20, bottom: 20, left: 20};
 	width = chartDiv.width() - margin.right - margin.left;
 	height = chartDiv.height() - margin.top - margin.bottom;
-	console.log("W:"+width, "H:"+height);
 	
 	//width = 300;
 	//height = 300;
 	r = height/3;
 
-	data = [{"label":"Single", "value":80}, 
-				{"label":"Divorced", "value":15}, 
-				{"label":"Widowed", "value":5}];
+	
 				
 	firstTime = true;
 }
 
 function drawTheChart(theData){
-
-	data2 = theData;
 	
-	//console.log([data2]);
-	//console.log(data);
-	
-	var pieData1 = [], pieData2 = [];
-	var sum1 = 0, sum2 = 0;
+	var pieDataMale = [], pieDataFemale = [];
+	var sumMale = 0, sumFemale = 0;
 	
 	//select the interesting data at the selected year
-	for(var i = 0; i<data2.length; i+=2){
+	for(var i = 0; i<theData.length; i+=2){
 		
-		pieData1.push({"label":data2[i]["marital status"], "value":parseFloat(data2[i][yearSelected])});
-		sum1 += parseFloat(data2[i][yearSelected]);
+		pieDataMale.push({"label":theData[i]["marital status"], "value":parseFloat(theData[i][yearSelected])});
+		sumMale += parseFloat(theData[i][yearSelected]);
 	}
 	
-	for(var i = 1; i<data2.length; i+=2){
+	for(var i = 1; i<theData.length; i+=2){
 		
-		pieData2.push({"label":data2[i]["marital status"], "value":parseFloat(data2[i][yearSelected])});
-		sum2 += parseFloat(data2[i][yearSelected]);
+		pieDataFemale.push({"label":theData[i]["marital status"], "value":parseFloat(theData[i][yearSelected])});
+		sumFemale += parseFloat(theData[i][yearSelected]);
 	}
-	
-	updateDataMale(pieData1, sum1);
-	updateDataFemale(pieData2, sum2);
-	
-	/*if(firstTime == true){
-		
-		initiateData(pieData1, sum1);
-		initiateData(pieData2, sum2);
-		
-		firstTime = false;
-	}
-	else{
-		
-		updateData(pieData1, sum1);
-		updateData(pieData2, sum2);
-	}*/
+
+	var testData = [{"label":"Single", "value":25}, 
+					{"label":"Married", "value":25}, 
+					{"label":"Divorced", "value":25}, 
+					{"label":"Widowed", "value":25}];
+
+	updateDataMale(pieDataMale, sumMale);
+	updateDataFemale(pieDataFemale, sumFemale);
+
 }
 
 function updateDataMale(pieData, sum){
 	
 	if(firstTime == false){
-		
 		vis1.remove();
 		//pie1.remove();
 		arcs1.remove();
 		
 		d3.select('#chart').select("svg").remove();
 		//chartDiv.remove();
-	}
+	}	
 	
 	//insert the selected data
 	vis1 = d3.select('#chart')
@@ -102,20 +86,28 @@ function updateDataMale(pieData, sum){
 	// declare an arc generator function
 	arc = d3.svg.arc().outerRadius(r);
 	
-	pie1 = d3.layout.pie().value(function(d){ return d.value; });
+	//pie1 = d3.layout.pie().value(function(d){ return d.value; });
 	
 	// select paths, use arc generator to draw
 	arcs1 = vis1.selectAll("g.slice")
-		.data(pie1)
+		.data(piechartProperties)
 		.enter()
 		.append("svg:g")
-		.attr("class", "slice");
+		.attr("class", "slice");	
 	
-		arcs1.append("svg:path")
-	.attr("fill", function(d, j){
-		return color1(j);
-	})
-	.attr("d", arc);
+	arcs1.append("svg:path")
+		.attr("fill", function(d, j){
+			return color(j);
+		})
+		.attr("d", arc);
+
+	//Add title
+	arcs1.append("text")
+      .attr("class", "title")
+      .attr("x", 0)
+      .attr("y", height/2-20)
+      .attr("text-anchor", "middle")
+      .text("Male - " + kommunSelected);
 	
 	// add the text
 	arcs1.append("svg:text")
@@ -138,12 +130,7 @@ function updateDataMale(pieData, sum){
       })
       .style("fill", "White")
       .style("font", "bold 12px Arial")
-      .text(function(d, j) { return  Math.floor(100 * (parseFloat(d["value"]) / parseFloat(sum))) + "%"; });
-	
-	  function angle(d) {
-      var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
-      return a > 90 ? a - 180 : a;
-    }
+      .text(function(d, j) { return  (100 * (parseFloat(d["value"]) / parseFloat(sum))).toFixed(1) + "%"; });
 }
 
 function updateDataFemale(pieData, sum){
@@ -170,20 +157,28 @@ function updateDataFemale(pieData, sum){
 	// declare an arc generator function
 	arc = d3.svg.arc().outerRadius(r);
 	
-	pie2 = d3.layout.pie().value(function(d){ return d.value; });
+	//pie2 = d3.layout.pie().value(function(d){ return d.value; });
 	
 	// select paths, use arc generator to draw
 	arcs2 = vis2.selectAll("g.slice")
-		.data(pie2)
+		.data(piechartProperties)
 		.enter()
 		.append("svg:g")
 		.attr("class", "slice");
 		
 		arcs2.append("svg:path")
 	.attr("fill", function(d, j){
-		return color1(j+4);
+		return color(j+4);
 	})
 	.attr("d", arc);
+
+	//Add title
+	arcs2.append("text")
+      .attr("class", "title")
+      .attr("x", 0)
+      .attr("y", height/2-20)
+      .attr("text-anchor", "middle")
+      .text("Female - " + kommunSelected);
 	
 	// add the text
 	arcs2.append("svg:text")
@@ -206,10 +201,10 @@ function updateDataFemale(pieData, sum){
       })
       .style("fill", "White")
       .style("font", "bold 12px Arial")
-      .text(function(d, j) { return  Math.floor(100 * (parseFloat(d["value"]) / parseFloat(sum))) + "%"; });
-	
-	  function angle(d) {
-      var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
-      return a > 90 ? a - 180 : a;
-    }
+      .text(function(d, j) { return  (100 * (parseFloat(d["value"]) / parseFloat(sum))).toFixed(1) + "%"; });  
+}
+
+function angle(d) {
+	var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+    return a > 90 ? a - 180 : a;
 }

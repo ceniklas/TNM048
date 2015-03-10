@@ -72,6 +72,7 @@ function map(){
             });
 
             setColorscale();
+
     }
 
     //zoom and panning method
